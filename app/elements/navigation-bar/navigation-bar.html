@@ -1,0 +1,1908 @@
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<link rel="import" href="../detailed-enquiry-form/detailed-enquiry-form.html">
+<link rel="import" href="../admission-form/admission-form.html">
+<link rel="import" href="../followup-card/followup-card.html">
+<link rel="import" href="../schedulefee-card/schedulefee-card.html">
+<link rel="import" href="../fee-card/fee-card.html">
+<link rel="import" href="../followup-details/followup-details.html">
+<link rel="import" href="../fee-reports/fee-reports.html">
+<link rel="import" href="../feetype-schedule-capdcrd/feetype-schedule-card.html">
+<link rel="import" href="../discount-schedule-card/discount-schedule-card.html">
+<dom-module id="navigation-bar">
+  <template>
+    <style>
+      #fee-dialog{
+        width: 90%;
+        height: 100%;
+        margin-left:5%;
+        margin-right:5%;
+        padding: 0;
+      }
+      #fee-content{
+        height: auto;
+        min-height: 100%;
+      }
+    </style>
+    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html" hidden$="{{hideschoolname}}">{{schoolname}}</a>
+      <paper-dropdown-menu label="Select School" style="width: 122%;" hidden$="{{hideschoolmenu}}">
+            <paper-menu id="menuselectschool" class="dropdown-content" required on-iron-select="FnSelectSchool" attr-for-selected="value" selected="{{selectedschool}}">
+              <template  is="dom-repeat" items="{{schoolarr}}" as="item">
+              <paper-item value="{{item.id}}">{{item.name}}</paper-item>
+              </template>
+            </paper-menu>
+      </paper-dropdown-menu>
+    </div>
+    <ul class="nav navbar-top-links navbar-right">
+      <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+          <i class="fa fa-envelope fa-fw"></i>  <i class="fa fa-caret-down"></i>
+        </a>
+        <ul class="dropdown-menu dropdown-messages">
+          <li>
+            <a href="#">
+              <div>
+                <strong>John Smith</strong>
+                  <span class="pull-right text-muted">
+                                        <em>Yesterday</em>
+                                    </span>
+              </div>
+              <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
+            </a>
+          </li>
+          <li class="divider"></li>
+          <li>
+            <a href="#">
+              <div>
+                <strong>John Smith</strong>
+                                    <span class="pull-right text-muted">
+                                        <em>Yesterday</em>
+                                    </span>
+              </div>
+              <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
+            </a>
+          </li>
+          <li class="divider"></li>
+          <li>
+            <a href="#">
+              <div>
+                <strong>John Smith</strong>
+                                    <span class="pull-right text-muted">
+                                        <em>Yesterday</em>
+                                    </span>
+              </div>
+              <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
+            </a>
+          </li>
+          <li class="divider"></li>
+          <li>
+            <a class="text-center" href="#">
+              <strong>Read All Messages</strong>
+              <i class="fa fa-angle-right"></i>
+            </a>
+          </li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+          <i class="fa fa-tasks fa-fw"></i>  <i class="fa fa-caret-down"></i>
+        </a>
+        <ul class="dropdown-menu dropdown-tasks">
+          <li>
+            <a href="#">
+              <div>
+                <p>
+                  <strong>Task 1</strong>
+                  <span class="pull-right text-muted">40% Complete</span>
+                </p>
+                <div class="progress progress-striped active">
+                  <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
+                    <span class="sr-only">40% Complete (success)</span>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </li>
+          <li class="divider"></li>
+          <li>
+            <a href="#">
+              <div>
+                <p>
+                  <strong>Task 2</strong>
+                  <span class="pull-right text-muted">20% Complete</span>
+                </p>
+                <div class="progress progress-striped active">
+                  <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
+                    <span class="sr-only">20% Complete</span>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </li>
+          <li class="divider"></li>
+          <li>
+            <a href="#">
+              <div>
+                <p>
+                  <strong>Task 3</strong>
+                  <span class="pull-right text-muted">60% Complete</span>
+                </p>
+                <div class="progress progress-striped active">
+                  <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
+                    <span class="sr-only">60% Complete (warning)</span>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </li>
+          <li class="divider"></li>
+          <li>
+            <a href="#">
+              <div>
+                <p>
+                  <strong>Task 4</strong>
+                  <span class="pull-right text-muted">80% Complete</span>
+                </p>
+                <div class="progress progress-striped active">
+                  <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%">
+                    <span class="sr-only">80% Complete (danger)</span>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </li>
+          <li class="divider"></li>
+          <li>
+            <a class="text-center" href="#">
+              <strong>See All Tasks</strong>
+              <i class="fa fa-angle-right"></i>
+            </a>
+          </li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <template is="dom-if" if="{{badgeShow}}">
+          <paper-badge for="number" label="{{totalfollowupstodaycount}}"></paper-badge>
+        </template>
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#" on-click="gettodayfollowups">
+          <i class="fa fa-bell fa-fw"></i>
+        </a>
+      </li>
+      <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+          <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
+        </a>
+        <ul class="dropdown-menu dropdown-user">
+          <li> Hi, {{username}}</li>
+          <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
+          </li>
+          <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+          </li>
+          <li class="divider"></li>
+          <li><a href="login.html" on-click="FnSignout"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+    <div class="navbar-default sidebar" role="navigation">
+      <div class="sidebar-nav navbar-collapse">
+        <ul class="nav" id="side-menu">
+        <li class="sidebar-search">
+            <div class="input-group custom-search-form">
+            <input type="text" class="form-control" placeholder="Search...">
+                <span class="input-group-btn">
+                <button class="btn btn-default" type="button">
+                <i class="fa fa-search"></i>
+                </button>
+                </span>
+            </div>
+        </li>
+          
+        <li id="enquiry">
+            <a id="enquiry" href="" aria-hidden="true" on-click="enquiry">
+            <i class="fa fa-phone-square fa-fw"></i>Enquiry
+            <span class="fa arrow"></span></a>
+            <ul class="nav nav-second-level">
+              <li id="enquiryform">
+              <a href="" data-backdrop="static" data-keyboard="false" aria-hidden="true" data-toggle="modal" data-target="#pre-apps" on-click="Fnpreapp">Enquiry Form</a>
+              </li>
+              <!-- <li id="updateenquiry">
+              <a href="" on-click="Fnpreappupdate">Update Enquiry</a>
+              </li> -->
+              <li id="followup">
+              <a id="followup" href="" aria-hidden="true" on-click="followupdashboard" data-toggle="modal"> Follow Up</a>
+              </li>
+            </ul>
+        </li>
+
+        <li id="foreports">
+          <a id="foreports" href="" aria-hidden="true"><i class="fa fa-table fa-fw"></i>FO Reports<span class="fa arrow"></span></a>
+          <ul class="nav nav-second-level">
+              <li id="enquiryconversionanalysis">
+                <a href="" on-click="FnEnquiryconversion" aria-hidden="true">Enquiry Conversion Analysis</a>
+              </li>
+              <li id="walkinanalysis">
+                <a href="" on-click="walkin_analysis" aria-hidden="true">Walkin Analysis</a>
+              </li>
+              <li id="walkinanalysiswithfilter">
+                <a href="" on-click="walkin_analysis_filter" aria-hidden="true">Walkin Analysis With Filter</a>
+              </li>
+              <li id="followupcallanalysis">
+                <a href="" on-click="call_analysis" aria-hidden="true">Follow Up Call Analysis</a>
+              </li>
+              <li id="masterenquiryanalysis">
+                <a href="" on-click="Fnmasteranalysis" aria-hidden="true">Master Enquiry Analysis</a>
+              </li>
+              <li id="counsellorreport">
+                <a href="" on-click="Fncounsellorreport" aria-hidden="true">Counsellor Report</a>
+              </li>
+          </ul>
+        </li> 
+        
+        <!-- <li id="balancefollowup" hidden$="{{hidebalancefollowupmenu}}">
+            <a href="" on-click="exchange_followup" ><i class="fa fa-exchange fa-fw"></i>Balance Followup</a>
+        </li> -->
+
+        <li id="usermanagement">
+          <a id="usermanagement" href="" aria-hidden="true" >
+          <i class="fa fa-check fa-fw"></i>User Management</a>
+            <ul class="nav nav-second-level">
+              <li id="createuser">
+                <a href="" aria-hidden="true" on-click="FnCreateUser">Create User</a>
+              </li>
+              <li id="accesscontrol">
+                <a href="" aria-hidden="true" on-click="FnAccessControl">Access Control</a>
+              </li>
+            </ul>
+        </li>
+      
+        <li id="feesstructure">
+            <a id="feesstructure" href="" aria-hidden="true" ><i class="fa fa-check fa-fw"></i>Fees Structure</a>
+            <ul class="nav nav-second-level">
+              <li id="feetypeschedule">
+                <a href="" aria-hidden="true" data-toggle="modal" data-target="#togglefeetypeschedule" on-click="FnFeetypeschedule">Fee Type Schedule</a>
+              </li>
+              <li id="discountschedule">
+                <a href="" aria-hidden="true" data-toggle="modal" data-target="#togglediscountschedule" on-click="FnDiscountschedule">Discount Schedule</a>
+              </li>
+              <li id="feesplitupschedule">
+                <a href="" aria-hidden="true" data-toggle="modal" data-target="#togglefeesplitupschedule" on-click="FnFeesplitupschedule">Fee Splitup Schedule</a>
+              </li>
+              <li id="installmentschedule">
+                <a href="" aria-hidden="true" data-toggle="modal" data-target="#togglefeestructureschedule" on-click="FnFeestructureschedule">Installment Schedule</a>
+              </li>              
+              </ul>
+        </li>
+
+        <li id="rtestructure">
+            <a id="rtestructure" href="" aria-hidden="true" ><i class="fa fa-check fa-fw"></i>RTE Structure</a>
+            <ul class="nav nav-second-level">
+              <li id="rtefeetypeschedule">
+                <a href="" aria-hidden="true" data-toggle="modal" data-target="#togglertefeetypeschedule" on-click="FnRTEFeetypeschedule">Fee Type Schedule</a>
+              </li>
+            </ul>
+        </li>
+
+        <li id="transportfeestructure">
+            <a id="transportfeestructure" href="" aria-hidden="true" ><i class="fa fa-check fa-fw"></i>Transport Fee Structure</a>
+            <ul class="nav nav-second-level">
+              <li id="transportfeeschedule">
+                <a href="" aria-hidden="true" data-toggle="modal" data-target="#toggletransportfeeschedule" on-click="FnTransportfeeschedule">Transport Fee Schedule</a>
+              </li>
+            </ul>
+        </li>
+
+        <li id="feestructurereports">
+           <a id="feestructurereports" href="" aria-hidden="true" on-click="feereports"><i class="fa fa-table fa-fw"></i>Fee Structure Reports</a>
+           <ul class="nav nav-second-level">
+           <li id="discountreport">
+            <a href="" aria-hidden="true" data-target="#discountstructurereport" data-backdrop="static" data-keyboard="false" on-click="FnDiscountStructureReport">Discount report</a>
+           </li>
+           <li id="feestructurereport">
+            <a href="" aria-hidden="true" data-target="#feestructurereport" data-backdrop="static" data-keyboard="false" on-click="FnFeeStructureReport">Fee Structure Report</a>
+           </li>
+           <li id="studentwisefeestructure">
+            <a href="" aria-hidden="true" data-target="#feestructureforgradereport" data-backdrop="static" data-keyboard="false" on-click="FnFeeStructureForGradeReport">Studentwise Fee Structure</a>
+           </li>
+           </ul>
+        </li>
+
+
+        <li id="enrollment">
+            <a id="enrollment" href="" aria-hidden="true"><i class="fa fa-phone-square fa-fw"></i> Enrollment<span class="fa arrow"></span></a>
+            <ul class="nav nav-second-level">         
+            <li id="admission">
+            <a href="" aria-hidden="true" data-toggle="modal" data-target="#togglenewadmission" data-backdrop="static" data-keyboard="false" on-click="FnAdmission">Admission</a>
+            </li>
+            <li id="updateadmission">
+            <a href="" aria-hidden="true" on-click="FnUpdateAdmission">Update Admission</a>
+            </li>
+            <li id="promotion">
+            <a href="" aria-hidden="true" on-click="FnPromotion">Promotion</a>
+            </li>
+            <li id="cancelenrollment">
+            <a href="" aria-hidden="true" on-click="FnCancelEnrollment">Cancel Enrollment</a>
+            </li>
+            <li id="withdrawalprocess">
+            <a href="" aria-hidden="true" on-click="FnWithdrawal">Withdrawal Process</a>
+            </li>
+            <li id="enrollmentreport">
+            <a href="" aria-hidden="true" on-click="FnEnrollmentreport">Enrollment Report</a>
+            </li>
+            <li id="tcreport">
+            <a href="" aria-hidden="true" on-click="FnTCreport">TC Students Report</a>
+            </li>
+            <li id="withdrawnreport">
+            <a href="" aria-hidden="true" on-click="FnWithdrawnreport">Withdrawn Students Report</a>
+            </li>
+            <li id="rtereport">
+            <a href="" aria-hidden="true" on-click="FnRTEreport">RTE Students Report</a>
+            </li>
+            <li id="enrollmentdashboard">
+            <a href="" aria-hidden="true" on-click="FnEnrollmentDashboard">Daily Enrollment Dashboard</a>
+            </li>
+            <li id="admissiondashboard">
+            <a href="" aria-hidden="true" on-click="FnAdmissionDashboard">Enrollment Dashboard</a>
+            </li>
+            </ul>
+        </li>
+
+        <li id="feepayment">
+            <a id="feepayment" href="#" aria-hidden="true" data-toggle="modal" on-click="FnFeePayment"><i class="fa fa-money fa-fw"></i> Fee Payment<span class="fa arrow"></span></a>
+            <ul class="nav nav-second-level">
+              
+              <!-- <li id="feecollection">
+              <a href="" aria-hidden="true" data-toggle="modal" data-target="#togglefeecollection" on-click="FnFeeCollection">Fee Collection</a>
+              </li> -->
+              <li id="applicationfee">
+              <a href="" aria-hidden="true" data-toggle="modal"  on-click="FnProspect">Application Fee</a>
+              </li>
+              <li id="collection">
+              <a href="" aria-hidden="true" data-toggle="modal" data-target="#togglecollection" on-click="FnCollection">Fee Collection</a>
+              </li>
+              <li id="registrationfee" hidden>
+                <a href="" aria-hidden="true" data-toggle="modal" data-target="#toggleregisterationfee" on-click="FnRegister">Registration Fee</a>
+              </li>
+              <li id="cautiondeposit" hidden>
+                <a href="" aria-hidden="true" data-toggle="modal" data-target="#togglecautiondeposit" on-click="FnCautionDeposit">Caution Deposit</a>
+              </li>
+              <li id="schoolfee" hidden>
+                <a href="" aria-hidden="true" data-toggle="modal" data-target="#togglefeepayment"  on-click="FnKit">School Fee</a>
+              </li>
+              <li id="transportfee" hidden>
+                <a href="" aria-hidden="true" data-toggle="modal" data-target="#toggletransportfeepayment"  on-click="FnTransportFee">Transport Fee</a>
+              </li>
+              <li id="customfeepayment" hidden>
+                <a href="" aria-hidden="true" data-toggle="modal" data-target="#togglecustomfeepayment"  on-click="FnCustomfee">Custom Fee Payment</a>
+              </li> 
+              <li id="rtefee" hidden>
+                <a href="" aria-hidden="true" data-toggle="modal" data-target="#togglertefee"  on-click="FnRTEfee">RTE Fee</a>
+              </li>              
+              <li id="provisionfee" hidden>
+                <a href="" aria-hidden="true" data-toggle="modal" data-target="#toggleprovisionfee"  on-click="FnProvisionfee">Provision Fee</a>
+              </li> 
+            </ul>
+        </li>
+
+          <li id="dailycollectionreport">
+          <a href="" aria-hidden="true"><i class="fa fa-table fa-fw"></i>Daily Collection Report<span class="fa arrow"></span></a>
+          <ul class="nav nav-second-level">          
+            <li id="currentdatecollection">
+            <a href="" aria-hidden="true" on-click="FnDayCollectionReport">Current Date Collection</a>
+            </li>
+            <li id="daycollection">
+            <a href="" aria-hidden="true" on-click="FnDetaildaycollection">Day Collection</a>
+            </li>
+            <li id="dailyincome">
+            <a href="" aria-hidden="true" on-click="FnDailyincomeReport">Daily Income</a>
+            </li>
+            <li id="chequecollectionreport">
+            <a href="" aria-hidden="true" on-click="FnchequeCollectionReport">Cheque Collection Report</a>
+            </li>
+            <li id="rtecollection">
+            <a href="" aria-hidden="true" on-click="FnRTECollectionReport">RTE Collection</a>
+            </li>
+            <li id="duecheques">
+            <a href="" aria-hidden="true" on-click="FnDuechequesReport">Due Cheques</a>
+            </li>
+            <li id="pdccheques">
+            <a href="" aria-hidden="true" on-click="FnPdcCheques">PDC Cheques</a>
+            </li>            
+            <!-- <li id="dailycollectionreport">
+            <a href="" aria-hidden="true" on-click="FnDailyCollectionReport">Daily Fee Collection Report</a>
+            </li> -->            
+          </ul>
+        </li>  
+      
+        <li id="reports">
+            <a href="" aria-hidden="true"><i class="fa fa-table fa-fw"></i>Reports<span class="fa arrow"></span></a>
+            <ul class="nav nav-second-level">
+            <li id="collectionduereport">
+            <a href="" aria-hidden="true" on-click="FnCollectionDueReport">Due Report<span class="fa arrow"></span></a>
+            </li>
+            <li id="reports" hidden>
+            <a href="" aria-hidden="true">Pending Collection Report<span class="fa arrow"></span></a>
+            <ul class="nav nav-third-level">
+            <li id="feeduereport">
+            <a href="" aria-hidden="true" on-click="FnPendingFeeReport">Fee Paid & Due Report</a>
+            </li>
+            <li id="rollovernotpaidlist">
+            <a href="" aria-hidden="true" on-click="FnNotpaidReport">Rollover Not paid List</a>
+            </li>
+            </ul>
+            </li>            
+            <li id="dailycollectiondashboard">
+            <a href="" aria-hidden="true" on-click="FnDailycollectionDashboard">Daily Collection Dashboard<span class="fa arrow"></span></a>
+            </li>
+            <li id="consolidatedcollectiondashboard" hidden>
+            <a href="" aria-hidden="true" on-click="FnCollectionDashboard">Consolidated Collection Dashboard<span class="fa arrow"></span></a>
+            </li>
+            <li id="feepaidduereport" hidden>
+            <a href="" aria-hidden="true" on-click="FnDetailduereport">Fee Paid & Due report<span class="fa arrow"></span></a>
+            </li>
+            <li id="processreport" hidden>
+            <a href="" aria-hidden="true" on-click="FnProcessreport">Process Report<span class="fa arrow"></span></a>
+            </li>
+            </ul>
+        </li>
+
+        <li id="dashboardreport">
+         <a href="" aria-hidden="true"><i class="fa fa-table fa-fw"></i>Dashboard<span class="fa arrow"></span></a>
+          <ul class="nav nav-second-level">  
+          <li id="fodashboardreport">
+            <a href="" aria-hidden="true"><i class="glyphicon glyphicon-user"></i>Enquiry Dashboard<span class="fa arrow"></span></a>
+            <ul class="nav nav-second-level"> 
+            <li id="enquiryconversionanalysis">
+                <a href="" on-click="FnEnquiryconversion" aria-hidden="true">Enquiry Conversion Analysis</a>
+              </li>
+              <li id="walkinanalysis">
+                <a href="" on-click="walkin_analysis" aria-hidden="true">Walkin Analysis</a>
+              </li>
+              <li id="walkinanalysiswithfilter">
+                <a href="" on-click="walkin_analysis_filter" aria-hidden="true">Walkin Analysis With Filter</a>
+              </li>
+              <li id="followupcallanalysis" hidden>
+                <a href="" on-click="call_analysis" aria-hidden="true">Follow Up Call Analysis</a>
+              </li>
+              <li id="masterenquiryanalysis" hidden>
+                <a href="" on-click="Fnmasteranalysis" aria-hidden="true">Master Enquiry Analysis</a>
+              </li>
+              <li id="counsellorreport" hidden>
+                <a href="" on-click="Fncounsellorreport" aria-hidden="true">Counsellor Report</a>
+              </li>
+            <li id="enrollmentdashboard">
+            <a href="" aria-hidden="true" on-click="FnEnrollmentDashboard">Daily Enrollment Dashboard</a>
+            </li>
+            <li id="admissiondashboard">
+            <a href="" aria-hidden="true" on-click="FnAdmissionDashboard">Enrollment Dashboard</a>
+            </li>
+            </ul>
+          </li>    
+          <li id="collectiondashboardreport">
+            <a href="" aria-hidden="true"><i class="glyphicon glyphicon-gbp"></i>Collection Dashboard<span class="fa arrow"></span></a>
+            <ul class="nav nav-second-level"> 
+              <li id="collectionduereport">
+              <a href="" aria-hidden="true" on-click="FnCollectionDueReport">Due Report<span class="fa arrow"></span></a>
+              </li>
+              <li id="dailycollectiondashboard">
+              <a href="" aria-hidden="true" on-click="FnDailycollectionDashboard">Daily Collection Dashboard<span class="fa arrow"></span></a>
+              </li>
+            </ul>
+          </li>  
+          </ul>
+        </li>
+
+        <li id="reportcollectionreport">
+         <a href="" aria-hidden="true"><i class="fa fa-table fa-fw"></i>Collection Report<span class="fa arrow"></span></a>
+          <ul class="nav nav-second-level">          
+            <li id="reportbouncecollection">
+            <a href="" aria-hidden="true" on-click="FnBounceCollectionReport">Bounce Collection</a>
+            </li>
+            <li id="reportcollection">
+            <a href="" aria-hidden="true" on-click="FnTCCollectionReport">TC Collection</a>
+            </li>
+            <li id="reportwithdrawcollection">
+            <a href="" aria-hidden="true" on-click="FnWithdrawCollectionReport">Withdrawn Collection</a>
+            </li>
+            <li id="reportapplnfeecollection">
+            <a href="" aria-hidden="true" on-click="FnApplnFeeCollectionReport">Application Fee Collection</a>
+            </li>
+            <li id="reportregfeecollection">
+            <a href="" aria-hidden="true" on-click="FnRegFeeCollectionReport">Registration Fee Collection</a>
+            </li>
+            <li id="reportschoolfeecollection">
+            <a href="" aria-hidden="true" on-click="FnSchoolFeeCollectionReport">School Fee Collection</a>
+            </li>
+            <li id="reportlatefeecollection">
+            <a href="" aria-hidden="true" on-click="FnLateFeeCollectionReport">Late Fee Collection</a>
+            </li>
+            <li id="reportadhocfeecollection">
+            <a href="" aria-hidden="true" on-click="FnAdhocFeeCollectionReport">Adhoc Fee Collection</a>
+            </li>
+            <li id="thirdpartycollection">
+            <a href="" aria-hidden="true" on-click="FnTPCollectionReport">Thirdparty Collection</a>
+            </li>
+            <li id="thirdpartypendingcollection">
+            <a href="" aria-hidden="true" on-click="FnTPPendingCollectionReport">Thirdparty Pending Collection</a>
+            </li>
+            <li id="refundcollectionamount">
+            <a href="" aria-hidden="true" on-click="FnRefundCollectionReport">Refund Amount</a>
+            </li>
+            <li id="collectionreconamount">
+            <a href="" aria-hidden="true" on-click="FnCollectionReconReport">Reconciliation Report</a>
+            </li>
+          </ul>
+        </li>
+
+        <li id="transportprocess">
+          <a href="" aria-hidden="true"><i class="fa fa-table fa-fw"></i>Transport Process<span class="fa arrow"></span></a>
+          <ul class="nav nav-second-level">
+           <li id="zoneallocation">
+            <a href="" aria-hidden="true" data-toggle="modal" data-target="#togglezoneallocation" on-click="FnZoneAllocation">Zone Allocation</a>
+           </li> 
+           <li id="zonechange">
+            <a href="" aria-hidden="true" data-toggle="modal" data-target="#togglezonechange" on-click="FnZoneChange">Zone Change</a>
+           </li>
+           <li id="zonechangecollection">
+            <a href="" aria-hidden="true" data-toggle="modal" data-target="#togglezonechangecollection" on-click="FnZoneChangeCollection">Zone Change Collection</a>
+           </li>
+           <li id="zonecancellation">
+            <a href="" aria-hidden="true" data-toggle="modal" data-target="#togglezonecancellation" on-click="FnZoneCancellation">Zone Cancellation</a>
+           </li>
+           <li id="transportdiscount">
+            <a href="" aria-hidden="true" data-toggle="modal" data-target="#toggletransportdiscount" on-click="FnTransportDiscount">Transport Discount</a>
+           </li>
+           <li id="transportchequecancelorbounce">
+            <a href="" aria-hidden="true" data-toggle="modal" data-target="#toggletransportchequecancelorbounce" on-click="FnTransportchequecancelorbounce">Transport cheque Bounce/Cancel</a>
+           </li>
+           <li id="addstudent">
+            <a href="" aria-hidden="true" data-toggle="modal" data-target="#toggleaddstudent" on-click="FnAddStudent">Add Student</a>
+           </li> 
+           <li id="transportsearchreceipt">
+            <a href="" aria-hidden="true" on-click="FnTransportSearchReceipt">Search Receipt</a>
+           </li> 
+           <li id="transportchequeeditdelete">
+            <a href="" aria-hidden="true" on-click="FnTransportChequeEditDelete">Cheque Edit/Delete</a>
+           </li> 
+           <li id="transportdailycollection">
+            <a href="" aria-hidden="true" on-click="FnTransportDailyCollection">Transport Daily Collection</a>
+           </li>
+           <li id="transportfeeduereport">
+            <a href="" aria-hidden="true" on-click="FnTransportFeeDueReport">Transport Fee Paid & Due Report</a>
+           </li>
+           <li id="transportpdccollection">
+            <a href="" aria-hidden="true" on-click="FnTransportPdcCollection">PDC Collection</a>
+           </li>
+           <li id="transportcollectiondashboard">
+            <a href="" aria-hidden="true" on-click="FnTransportCollectionDashboard">Transport Collection Dashboard</a>
+           </li>
+           <li id="transportcancellation">
+            <a href="" aria-hidden="true" data-toggle="modal" data-target="#toggletransportcancellation" on-click="FnTransportCancellation">Transport Cancellation</a>
+           </li>
+          </ul>
+        </li>
+
+        <li id="process">
+          <a href="" aria-hidden="true"><i class="fa fa-table fa-fw"></i>Process<span class="fa arrow"></span></a>
+          <ul class="nav nav-second-level">
+           <li id="attachdiscount">
+            <a href="" aria-hidden="true" on-click="FnAddDiscount">Attach Discount</a>
+           </li> 
+           <li id="deletediscount">
+            <a href="" aria-hidden="true" on-click="FnDeleteDiscount">Delete Discount</a>
+           </li> 
+           <li id="adhocdiscount">
+            <a href="" aria-hidden="true" on-click="FnAdhocDiscount">Adhoc Discount</a>
+           </li> 
+           <li id="latefeecollection">
+            <a href="" aria-hidden="true" on-click="FnLatefee">Latefee Collection</a>
+           </li>
+           <li id="searchreceipt">
+            <a href="" aria-hidden="true" on-click="FnSearchReceipt">Search Receipt</a>
+           </li> 
+           <li id="defaulterupdate">
+            <a href="" aria-hidden="true" on-click="FnDefaulterUpdate">Defaulter Update</a>
+           </li> 
+            <li id="bouncecancelprocess">
+            <a href="" aria-hidden="true" on-click="FnBounceProcessing">Bounce/Cancel Process</a>
+            </li> 
+            <li id="editdeletecheques">
+            <a href="" aria-hidden="true" on-click="FnChequeEditDelete">Edit/Delete Cheques</a>
+            </li>
+            <li id="thirdpartyrealization">
+            <a href="" aria-hidden="true" on-click="FnTprealisation">Third Party Realization</a>
+           </li>
+            <li id="chequerealization">
+            <a href="" aria-hidden="true" on-click="FnChequerealization">Cheque Realization</a>
+           </li>           
+           <li id="bouncecheques">
+            <a href="" aria-hidden="true" on-click="FnShowBounceCheques">Bounce Cheques</a>
+           </li>        
+          </ul>
+        </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <div class="modal fade bd-example-modal-lg" id="pre-apps" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg" id ="fee-dialog">
+        <div class="modal-content" id="fee-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="center-block event-title" id="">
+              Enquiry Form
+            </h4>
+          </div>
+          <div class="modal-body">
+            <!-- <zonetostudent-card></zonetostudent-card> -->
+            <pre-apps></pre-apps>
+          </div>
+        </div>
+      </div>
+ </div>
+
+ <div class="modal fade bd-example-modal-lg" id="togglezoneallocation" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg" id ="fee-dialog">
+        <div class="modal-content" id="fee-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="center-block event-title" id="">
+              Zone Allocation 
+            </h4>
+          </div>
+          <div class="modal-body">
+            <zonetostudent-card></zonetostudent-card>
+          </div>
+        </div>
+      </div>
+ </div>
+
+ <div class="modal fade bd-example-modal-lg" id="togglezonechangecollection" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg" id ="fee-dialog">
+        <div class="modal-content" id="fee-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="center-block event-title" id="">
+              Zone Change Collection
+            </h4>
+          </div>
+          <div class="modal-body">
+            <zonechangecollection-card></zonechangecollection-card>
+          </div>
+        </div>
+      </div>
+ </div>
+
+ <div class="modal fade bd-example-modal-lg" id="togglezonechange" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg" id ="fee-dialog">
+        <div class="modal-content" id="fee-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="center-block event-title" id="">
+              Zone Change 
+            </h4>
+          </div>
+          <div class="modal-body">
+            <zonechange-card></zonechange-card>
+          </div>
+        </div>
+      </div>
+ </div>
+
+ <div class="modal fade bd-example-modal-lg" id="toggleaddstudent" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg" id ="fee-dialog">
+        <div class="modal-content" id="fee-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="center-block event-title" id="">
+              Add Student
+            </h4>
+          </div>
+          <div class="modal-body">
+            <add-newstudent-card></add-newstudent-card>
+          </div>
+        </div>
+      </div>
+ </div>
+
+ <div class="modal fade bd-example-modal-lg" id="addEnquiry" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+              <h4 class="center-block event-title" id="eventTitle">
+                Enquiry Form
+              </h4>
+            </div>
+            <div class="modal-body">
+              <newenquiry-card></newenquiry-card>
+            </div>
+          </div>
+        </div>
+  </div>
+    <div class="modal fade bd-example-modal-lg" id="addDetailedEnquiry" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="center-block event-title" id="enquiry-title">
+              Enquiry Form
+            </h4>
+          </div>
+          <div class="modal-body">
+            <detailed-enquiry-form></detailed-enquiry-form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+     <div class="modal fade bd-example-modal-lg" id="admissiontest" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="center-block event-title" id="admission-title">
+              Admission Test
+            </h4>
+          </div>
+          <div class="modal-body">
+            <admission-approval-card></admission-approval-card>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade bd-example-modal-lg" id="togglenewadmission" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="center-block event-title" id="admission-title">
+              Admission
+            </h4>
+          </div>
+          <div class="modal-body">
+            <admission-form></admission-form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="modal fade bd-example-modal-lg" id="togglefeepayment" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg" id ="fee-dialog">
+        <div class="modal-content" id="fee-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="center-block event-title" id="">
+              School Fee 
+            </h4>
+          </div>
+          <div class="modal-body">
+            <fees-card></fees-card>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade bd-example-modal-lg" id="togglertefee" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg" id ="fee-dialog">
+        <div class="modal-content" id="fee-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="center-block event-title" id="">
+              RTE Fee 
+            </h4>
+          </div>
+          <div class="modal-body">
+            <rtefee-card></rtefee-card>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="modal fade bd-example-modal-lg" id="togglecustomfeepayment" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg" id ="fee-dialog">
+        <div class="modal-content" id="fee-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="center-block event-title" id="">
+              School Fee 
+            </h4>
+          </div>
+          <div class="modal-body">
+            <custompattern-fee-card></custompattern-fee-card>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade bd-example-modal-lg" id="toggleregisterationfee" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg" id ="fee-dialog">
+        <div class="modal-content" id="fee-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="center-block event-title" id="">
+             Registeration Fee
+            </h4>
+          </div>
+          <div class="modal-body">
+            <registerationfee-card></registerationfee-card>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade bd-example-modal-lg" id="togglecautiondeposit" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg" id ="fee-dialog">
+        <div class="modal-content" id="fee-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="center-block event-title" id="">
+             Caution Deposit
+            </h4>
+          </div>
+          <div class="modal-body">
+            <caution-deposit-card></caution-deposit-card>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade bd-example-modal-lg" id="togglefeecollection" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg" id ="fee-dialog">
+        <div class="modal-content" id="fee-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="center-block event-title" id="">
+             Fee Collection
+            </h4>
+          </div>
+          <div class="modal-body">
+            <fee-card></fee-card>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade bd-example-modal-lg" id="toggleprospectousfee" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg" id ="fee-dialog">
+        <div class="modal-content" id="fee-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="center-block event-title" id="">
+             Application Fee
+            </h4>
+          </div>
+          <div class="modal-body">
+            <prospectousfee-card></prospectousfee-card>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade bd-example-modal-lg" id="toggleprovisionfee" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg" id ="fee-dialog">
+        <div class="modal-content" id="fee-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="center-block event-title" id="">
+             Provisional Fee
+            </h4>
+          </div>
+          <div class="modal-body">
+            <provisionalfee-card></provisionalfee-card>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+     <div class="modal fade bd-example-modal-lg" id="togglefeetypeschedule" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="center-block event-title" id="">
+              Schedule Fee Type
+            </h4>
+          </div>
+          <div class="modal-body">
+            <feetype-schedule-card></feetype-schedule-card>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade bd-example-modal-lg" id="togglertefeetypeschedule" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="center-block event-title" id="">
+              Schedule RTE Fee Type
+            </h4>
+          </div>
+          <div class="modal-body">
+            <rtefeetype-schedule-card></rtefeetype-schedule-card>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade bd-example-modal-lg" id="toggletransportfeeschedule" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="center-block event-title" id="">
+              Schedule Transport Fee 
+            </h4>
+          </div>
+          <div class="modal-body">
+            <transportfee-schedule-card></transportfee-schedule-card>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade bd-example-modal-lg" id="toggletransportfeepayment" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg" id ="fee-dialog">
+        <div class="modal-content" id="fee-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="center-block event-title" id="">
+              Transport Fee 
+            </h4>
+          </div>
+          <div class="modal-body">
+            <transportfee-card></transportfee-card>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- <div class="modal fade bd-example-modal-lg" id="toggletransportfeepayment" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="center-block event-title" id="">
+              Transport Fee 
+            </h4>
+          </div>
+          <div class="modal-body">
+            <transportfee-card></transportfee-card>
+          </div>
+        </div>
+      </div>
+    </div> -->
+
+
+     <div class="modal fade bd-example-modal-lg" id="togglefeestructureschedule" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="center-block event-title" id="">
+              Schedule Installment
+            </h4>
+          </div>
+          <div class="modal-body">
+            <fee-structure-schedulecard></fee-structure-schedulecard>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="modal fade bd-example-modal-lg" id="togglediscountschedule" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="center-block event-title" id="">
+              Discount Schedule
+            </h4>
+          </div>
+          <div class="modal-body">
+            <discount-master-card></discount-master-card>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade bd-example-modal-lg" id="togglefeesplitupschedule" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="center-block event-title" id="">
+              Fee Splitup Schedule
+            </h4>
+          </div>
+          <div class="modal-body">
+            <!-- <fee-splitup-card></fee-splitup-card> -->
+            <feesplitup-structure-card></feesplitup-structure-card>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade bd-example-modal-lg" id="toggleinstallmentschedule" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="center-block event-title" id="">
+              Installment Schedule
+            </h4>
+          </div>
+          <div class="modal-body">
+            <installment-master-card></installment-master-card>
+          </div>
+        </div>
+      </div>
+    </div>     
+
+    <crm-service id="service"></crm-service>
+    <admission-service id="admissionservice"></admission-service>
+    <followup-service id="followupservice"></followup-service>
+    <schedule-service id="scheduleservice"></schedule-service>
+    <reporting-service id="reportingservice"></reporting-service>
+    <user-service id="userservice"></user-service>
+    <transportfee-service id="transportfeeservice"></transportfeetransportfee-service>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'navigation-bar',
+
+      ready:function(){
+        this.$.transportfeeservice.fetchschoolService();
+        // alert('In ready...');
+        this.schoolname=localStorage.getItem("schoolname");
+        this.username=localStorage.getItem("employeename");
+        this.hideenquirymenu=true;
+        this.hidebalancefollowupmenu=true;
+        this.hidefeestructurereportmenu=true;
+        this.hidefeestructuremenu=true;
+        this.hideenrollmentmenu=true;
+        this.hidefeepaymentmenu=true;
+        this.hidemasterreportmenu=true;
+        this.hidereportmenu=true;
+        localStorage.setItem('curr_sess_page','');
+      },
+      // FnFeeCollection:function(){
+      //   document.querySelector('app-list').setPage("fee-card","Fee Collection");
+      //   document.querySelector('fee-card').FnRefresh();
+      // },
+      FnSelectSchool:function(e){
+        localStorage.setItem('curr_sess_page','');
+        var schoolname=e.target.selectedItem.textContent.trim();
+        var schoolid=e.target.selectedItem.value.trim();
+        localStorage.setItem("schoolname",schoolname);
+        localStorage.setItem("schoolid",schoolid);
+      },
+      FnCreateUser:function(){
+        localStorage.setItem('curr_sess_page','');
+        this.$.userservice.fetchuserroleService();
+        document.querySelector('app-list').setPage("user-creation-card","User Creation");
+        document.querySelector('user-creation-card').FnRefresh();
+      },
+      FnAccessControl:function(){
+        localStorage.setItem('curr_sess_page','');
+        this.$.userservice.fetchuserroleService();
+        // this.$.userservice.fetchmenuService();
+        // this.$.userservice.fetchsubmenuService();
+        document.querySelector('app-list').setPage("role-menu-mapping-card","Access Control");
+        document.querySelector('role-menu-mapping-card').FnRefresh();
+      },
+      FnEnquiryconversion:function(){
+        localStorage.setItem('curr_sess_page','');
+        this.$.scheduleservice.fetchacademicyearService();
+        document.querySelector('app-list').setPage("enquiry-conversion-report","Enquiry Conversion Report");
+        document.querySelector('enquiry-conversion-report').FnRefresh();
+      },
+      FnFeetypeschedule:function(e){
+        localStorage.setItem('curr_sess_page','');
+        document.querySelector('feetype-schedule-card').FnRefresh();
+        this.$.scheduleservice.fetchgradeService();
+        this.$.scheduleservice.fetchacademicyearService();
+        this.$.scheduleservice.fetchadmissionyearService();
+        this.$.scheduleservice.fetchfeetypeService();
+      },
+      FnRTEFeetypeschedule:function(e){
+        localStorage.setItem('curr_sess_page','');
+        document.querySelector('rtefeetype-schedule-card').FnRefresh();
+        this.$.scheduleservice.fetchgradeService();
+        this.$.scheduleservice.fetchacademicyearService();
+        this.$.scheduleservice.fetchadmissionyearService();
+        this.$.scheduleservice.fetchfeetypeService();
+      },
+      FnTransportfeeschedule:function(e){
+        localStorage.setItem('curr_sess_page','');
+        document.querySelector('transportfee-schedule-card').FnRefresh();
+        document.querySelector('transportfee-schedule-card').callService();
+        this.$.scheduleservice.fetchacademicyearService();
+      },
+      FnTransportFee:function(e){
+        localStorage.setItem('curr_sess_page','');
+        document.querySelector('transportfee-card').FnRefresh();
+        document.querySelector('transportfee-card').callService();
+      },
+      FnCollection:function(e){
+        document.querySelector('app-list').setPage("fee-collection-home-card","Collection");
+        document.querySelector('fee-collection-home-card').callService();
+        document.querySelector('fee-collection-home-card').FnRefresh();
+        document.querySelector('fee-collection-home-card').ready();
+      },
+      FnProspect:function(e){
+      // alert(e.target.text);
+      localStorage.setItem('curr_sess_page','');
+        localStorage.setItem("curr_sess_feetypepayment","Application fee");
+        document.querySelector('app-list').setPage("application-fee-card","Application Fee Collection");
+        document.querySelector('application-fee-card').FnRefresh();
+        document.querySelector('application-fee-card').ready();
+        document.querySelector('application-fee-card').callService();
+        // document.querySelector('application-fee-card').FnRefresh();
+        // document.querySelector('application-fee-card').ready();
+        // localStorage.setItem("curr_sess_feetypepaymentflag","1");
+        // document.querySelector('prospectousfee-card').callService();
+        // document.querySelector('prospectousfee-card').FnRefresh();
+        // document.querySelector('prospectousfee-card').ready();
+        // this.FnRefresh();
+      },
+      FnRegister:function(e){
+      // alert(e.target.text);
+      localStorage.setItem('curr_sess_page','');
+        localStorage.setItem("curr_sess_feetypepayment","Registration fee");
+        localStorage.setItem("curr_sess_feetypepaymentflag","1");
+        document.querySelector('registerationfee-card').callService();
+        document.querySelector('registerationfee-card').FnRefresh();
+        document.querySelector('registerationfee-card').ready();
+        // this.FnRefresh();
+      },
+      FnCautionDeposit:function(e){
+      // alert(e.target.text);
+      localStorage.setItem('curr_sess_page','');
+        localStorage.setItem("curr_sess_feetypepayment","Caution deposit");
+        localStorage.setItem("curr_sess_feetypepaymentflag","1");
+        document.querySelector('caution-deposit-card').callService();
+        document.querySelector('caution-deposit-card').FnRefresh();
+        document.querySelector('caution-deposit-card').ready();
+        // this.FnRefresh();
+      },
+      FnDiscountschedule:function(e){
+        localStorage.setItem('curr_sess_page','');
+        document.querySelector('discount-master-card').FnRefresh();
+        this.$.scheduleservice.fetchgradeService();
+        this.$.scheduleservice.fetchacademicyearService();
+        this.$.scheduleservice.fetchadmissionyearService();
+        this.$.scheduleservice.fetchdiscounttypeService();
+        this.$.scheduleservice.fetchfeetypeService();       
+      },
+
+      FnFeestructureschedule:function(e){
+        localStorage.setItem('curr_sess_page','');
+        document.querySelector('fee-structure-schedulecard').FnRefresh();
+        document.querySelector('fee-structure-schedulecard').ready();
+        this.$.scheduleservice.fetchgradeService();
+        this.$.scheduleservice.fetchacademicyearService();
+        this.$.scheduleservice.fetchadmissionyearService();
+        this.$.scheduleservice.fetchfeecomponenttypeService();
+        this.$.scheduleservice.fetchdiscounttypeService();
+        this.$.scheduleservice.fetchfeetypeService();
+      },
+      FnInstallmentschedule:function(e){
+        localStorage.setItem('curr_sess_page','');
+        this.$.scheduleservice.fetchgradeService();
+        this.$.scheduleservice.fetchacademicyearService();
+        this.$.scheduleservice.fetchadmissionyearService();
+      },
+
+      FnAnnual:function(e){
+        localStorage.setItem('curr_sess_page','');
+        localStorage.setItem("curr_sess_feetype",e.target.text);
+        this.FnRefresh();
+      },
+      FnKit:function(e){
+        localStorage.setItem('curr_sess_page','');
+        localStorage.setItem("curr_sess_feetypepayment","School fee");
+        localStorage.setItem("curr_sess_feetypepaymentflag","0");
+        localStorage.setItem("curr_sess_feetype",e.target.text);
+        localStorage.setItem("curr_sess_provisionflag",0);
+        this.FnRefresh();
+      },
+      FnRTEfee:function(e){
+        localStorage.setItem('curr_sess_page','');
+        localStorage.setItem("curr_sess_feetypepayment","RTE fee");
+        localStorage.setItem("curr_sess_feetypepaymentflag","2");
+        localStorage.setItem("curr_sess_feetype",e.target.text);
+        document.querySelector('rtefee-card').FnRefresh();
+        document.querySelector('rtefee-card').callService();
+      },
+      FnCustomfee:function(e){
+        localStorage.setItem("curr_sess_installmentpatternchange",true);
+        localStorage.setItem('curr_sess_page','');
+        localStorage.setItem("curr_sess_feetypepayment","Custom fee");
+        localStorage.setItem("curr_sess_feetypepaymentflag","1");
+        localStorage.setItem("curr_sess_feetype",e.target.text);
+        document.querySelector('custompattern-fee-card').callService();
+        document.querySelector('custompattern-fee-card').FnRefresh();
+      },
+      FnMiscellaneous:function(e){
+        localStorage.setItem('curr_sess_page','');
+        localStorage.setItem("curr_sess_feetype",e.target.text);
+        this.FnRefresh();
+      },
+      followupdashboard:function(){
+        localStorage.setItem('curr_sess_page','');
+        this.$.followupservice.getfollowupcount();
+        document.querySelector('app-list').setPage("follow-up","Dashboard");
+      },
+      FnRefresh:function(){
+        localStorage.setItem('curr_sess_page','');
+        document.querySelector('fees-card').ready();
+        document.querySelector('fees-card').FnRefresh();
+        // document.querySelector('admission-service').FnRefresh();
+      },
+      enquiry:function()
+      {
+        localStorage.setItem('curr_sess_page','');
+        document.querySelector("enquiry-card").ready();
+        // this.$.service.getenquirycount();
+        // this.$.service.getadmittedcount();
+        // document.querySelector('detailed-enquiry-form').country();
+        document.querySelector('app-list').setPage("enquiry");
+      },
+      Master:function()
+      {
+          //this.$.service.getinstallmentdetails();
+      },
+      schedule:function(){
+        this.$.service.getfeecount();
+        document.querySelector('app-list').setPage("feestructure-dashboard");
+      },
+      walkin_analysis:function(){
+        this.$.service.walkinanalysisyear();
+        this.$.service.walkinanalysismonth();
+        this.$.service.walkinanalysisday();
+        document.querySelector('app-list').setPage("walkin-analysis","Walkin Analysis");
+      },
+      walkin_analysis_filter:function(){
+        document.querySelector('app-list').setPage("walkin-analysis-filter","Walkin Analysis with Filters");
+      },
+      FnAdmissionTest:function(){
+        document.querySelector('admission-approval-card').FnRefresh();
+      },
+      FnAdmission:function(){
+        localStorage.setItem('curr_sess_page','');
+        this.$.service.getdiscounts();
+        this.$.scheduleservice.fetchacademicyearService();
+        this.$.scheduleservice.fetchproofService();
+        document.querySelector('admission-form').FnRefresh();
+        document.querySelector('special-discount-card').ready();
+      },
+      FnUpdateAdmission:function(){
+        localStorage.setItem('curr_sess_page','');
+        document.querySelector('app-list').setPage("update-admission-info","Update Admission Info");
+        document.querySelector('update-admission-info').FnRefresh();
+        document.querySelector('update-admission-info').callService();
+      },
+      Fnpreapp:function(){
+        localStorage.setItem('curr_sess_page','');
+        localStorage.setItem("curr_sess_enquiryupdateflag",0);
+        // document.querySelector('app-list').setPage("pre-apps","Enquiry Form");
+        document.querySelector('pre-apps').ready();
+        document.querySelector('pre-apps').callnextyearhandler();
+        document.querySelector('pre-apps').FnClear();        
+      },
+      Fnpreappupdate:function(){
+        localStorage.setItem('curr_sess_page','');
+        document.querySelector('app-list').setPage("update-preapps","Pre Application");
+        document.querySelector('update-preapps').ready();
+        document.querySelector('update-preapps').callnextyearhandler();
+      },
+      Fnenqform:function(){
+          document.querySelector('detailed-enquiry-form').Fnclear();
+          document.querySelector('detailed-enquiry-form').ready();
+      },     
+      FnDiscount:function()
+      {
+        localStorage.setItem('curr_sess_page','');
+        document.querySelector('app-list').setPage("discount-type-ui","Discount Type");
+        document.querySelector('discount-type-ui-card').ready();
+        document.querySelector('discount-display-card').ready();        
+      },
+      FnAdhocDiscount:function(){
+        localStorage.setItem('curr_sess_page','');
+        document.querySelector('app-list').setPage("adhoc-discount","Adhoc Discount");
+        document.querySelector('adhoc-discount').callService();
+        document.querySelector('adhoc-discount').ready();
+        // document.querySelector('discount-display-card').ready();   
+      },  
+      FnLatefee:function(){
+        localStorage.setItem('curr_sess_page','');
+        document.querySelector('app-list').setPage("latefee-card","Latefee Collection");
+        document.querySelector('latefee-card').callService();
+        document.querySelector('latefee-card').ready();
+        // document.querySelector('discount-display-card').ready();   
+      },     
+       FnInstallment:function()
+      {
+        document.querySelector('app-list').setPage("installment-master-ui-card","Installment Date");
+        //document.querySelector('installment-master-ui-card').ready();   
+      },
+      Fnmasteranalysis:function(){
+          document.querySelector('app-list').setPage("master-enquiry-analysis","Master Walk-in Analysis");
+          document.querySelector('master-report-card').Fncall();
+      },
+      FnDayCollectionReport:function(){
+          this.$.scheduleservice.fetchgradeforreportService();
+          document.querySelector('app-list').setPage("daycollection-report","Daily Collection");
+          document.querySelector('daycollection-report').FnRefresh();
+          document.querySelector('daycollection-report').FnCallService();
+      },
+      FnTransportDailyCollection:function(){
+          document.querySelector('app-list').setPage("transportdaily-collection-report","Transport Daily Collection");
+          document.querySelector('transportdaily-collection-report').FnRefresh();
+          document.querySelector('transportdaily-collection-report').FnCallService();
+      },
+      FnTransportFeeDueReport:function(){
+          this.$.scheduleservice.fetchacademicyearService();
+          this.$.scheduleservice.fetchgradeforreportService();
+          document.querySelector('app-list').setPage("transport-feepaiddue-report","Transport Fee Paid & Due Report");
+          document.querySelector('transport-feepaiddue-report').FnRefresh();
+          document.querySelector('transport-feepaiddue-report').FnCallService();
+      },
+      FnTransportPdcCollection:function(){
+        document.querySelector('app-list').setPage("transport-pdc-report","Transport PDC Collection");
+        document.querySelector('transport-pdc-report').FnRefresh();
+        document.querySelector('transport-pdc-report').FnCallService();
+      },
+      FnTransportCollectionDashboard:function(){
+        document.querySelector('app-list').setPage("transport-dashboard","transport-dashboard");
+        // document.querySelector('transport-dashboard').FnRefresh();
+        document.querySelector('transport-dashboard').FnCallService();
+      },
+      FnDetaildaycollection:function(){
+          this.$.scheduleservice.fetchgradeforreportService();
+          document.querySelector('app-list').setPage("detaildaycollection-report","Daily Collection");
+          document.querySelector('detaildaycollection-report').FnRefresh();
+          document.querySelector('detaildaycollection-report').FnCallService();
+      },
+      FnDuechequesReport:function(){
+          this.$.scheduleservice.fetchgradeforreportService();
+          document.querySelector('app-list').setPage("duecheques-report","Due Cheques");
+          document.querySelector('duecheques-report').FnRefresh();
+          document.querySelector('duecheques-report').FnCallService();
+      },
+      FnDailyincomeReport:function(){
+          this.$.scheduleservice.fetchgradeforreportService();
+          document.querySelector('app-list').setPage("dailyincome-report","Daily Income");
+          document.querySelector('dailyincome-report').FnRefresh();
+          document.querySelector('dailyincome-report').FnCallService();
+      },
+      FnTPCollectionReport:function(){
+          this.$.scheduleservice.fetchgradeforreportService();
+          document.querySelector('app-list').setPage("neevcollection-report","Thirdparty Collection");
+          document.querySelector('neevcollection-report').FnRefresh();
+          document.querySelector('neevcollection-report').FnCallService();
+      },
+      FnRTECollectionReport:function(){
+          this.$.scheduleservice.fetchgradeforreportService();
+          document.querySelector('app-list').setPage("rtecollection-report","RTE Collection");
+          document.querySelector('rtecollection-report').FnRefresh();
+          document.querySelector('rtecollection-report').FnCallService();
+      },
+      FnFeeCollectionReport:function(){
+          this.$.scheduleservice.fetchgradeforreportService();
+          document.querySelector('app-list').setPage("fee-collection-report-card","Collection Report");
+          document.querySelector('fee-collection-report-card').FnRefresh();
+          document.querySelector('fee-collection-report-card').FnCallService();
+      },
+      FnFeePayment:function(){
+          document.querySelector('fees-card').callService();
+          document.querySelector('fees-card').FnRefresh();
+          document.querySelector('fees-card').ready();
+      },
+     
+      call_analysis:function(){
+        document.querySelector('app-list').setPage("callanalysis-report-card","Follow-Up Call Analysis Report");
+          document.querySelector('callanalysis-report-card').ready();
+        },
+      FnChequerealization:function(){
+          document.querySelector('app-list').setPage("cheque-realization-card","Cheque Processing");
+          document.querySelector('cheque-realization-card').FnCallService();
+      },
+
+      FnWithdrawal:function(){
+          document.querySelector('app-list').setPage("withdrawal-card","Withdrawal Processing");
+      },
+      exchange_followup:function(){
+        document.querySelector('app-list').setPage("exchange-followup","Balance Followup");
+        document.querySelector('exchange-followup').ready();
+      },  
+      feereports:function(){
+      },
+      gettodayfollowups:function(){
+        document.querySelector('app-list').setPage("followup-today-report","Today's Follow Up");
+        this.$.followupservice.getfollowupdetailstoday();
+      }, 
+      Fntotalfollowupstoday:function(count){
+        if( count === 0 ){
+          this.badgeShow = false;
+        } else {
+          this.badgeShow = true;
+        }
+        this.totalfollowupstodaycount = count;
+      },
+      FnFeesplitupschedule:function(){
+        localStorage.setItem('curr_sess_page','');
+        document.querySelector('feesplitup-structure-card').ready();
+        document.querySelector('feesplitup-structure-card').FnRefresh();
+        this.$.scheduleservice.fetchgradeService();
+        this.$.scheduleservice.fetchacademicyearService();
+        this.$.scheduleservice.fetchadmissionyearService();
+      },
+      FnAddDiscount:function(){
+        localStorage.setItem('curr_sess_page','');
+        document.querySelector('app-list').setPage("adddiscount","Add Discount");
+        document.querySelector('attachdiscount-card').callService();
+        document.querySelector('attachdiscount-card').ready();
+      },
+      FnDeleteDiscount:function(){
+        localStorage.setItem('curr_sess_page','');
+        document.querySelector('app-list').setPage("deletediscount-card","Delete Discount");
+        document.querySelector('deletediscount-card').callService();
+        document.querySelector('deletediscount-card').ready();
+      },
+      FnSearchReceipt:function(){
+        localStorage.setItem('curr_sess_page','');
+        this.$.scheduleservice.fetchacademicyearService();        
+        document.querySelector('app-list').setPage("searchreceipt","Search Receipt");
+        document.querySelector('searchreceipt-card').callService();
+        document.querySelector('searchreceipt-card').ready();
+      },
+      FnZoneAllocation:function(){
+        // document.querySelector('app-list').setPage("zonetostudent-card","Zone Allocation");
+        localStorage.setItem('curr_sess_page','zoneallocation');
+        document.querySelector('zonetostudent-card').callService();
+        this.$.transportfeeservice.fetchzoneService();
+        document.querySelector('zonetostudent-card').ready();
+        document.querySelector('zonetostudent-card').FnRefresh();
+      },
+      FnZoneChange:function(){
+        localStorage.setItem('curr_sess_page','zonechange');
+        document.querySelector('zonechange-card').callService();
+        this.$.transportfeeservice.fetchzoneService();
+        document.querySelector('zonechange-card').ready();
+        document.querySelector('zonechange-card').FnRefresh();
+      },
+      FnZoneChangeCollection:function(){
+        localStorage.setItem('curr_sess_page','');
+        document.querySelector('zonechangecollection-card').callService();
+        document.querySelector('zonechangecollection-card').ready();
+        document.querySelector('zonechangecollection-card').FnRefresh();
+      },
+      FnZoneCancellation:function(){
+        localStorage.setItem('curr_sess_page','');
+        document.querySelector('app-list').setPage("zone-cancellation-card","Zone Cancellation");
+        document.querySelector('zone-cancellation-card').callService();
+        document.querySelector('zone-cancellation-card').ready();
+        document.querySelector('zone-cancellation-card').FnRefresh();
+      },
+      FnTransportCancellation:function(){
+        localStorage.setItem('curr_sess_page','');
+        document.querySelector('app-list').setPage("transport-cancellation-card","Transport Cancellation");
+        document.querySelector('transport-cancellation-card').callService();
+        document.querySelector('transport-cancellation-card').ready();
+        document.querySelector('transport-cancellation-card').FnRefresh();
+      },
+      FnTransportDiscount:function(){
+        localStorage.setItem('curr_sess_page','');
+        document.querySelector('app-list').setPage("transport-discount-card","Transport Discount");
+        document.querySelector('transport-discount-card').callService();
+        document.querySelector('transport-discount-card').ready();
+        document.querySelector('transport-discount-card').FnRefresh();
+      },
+      FnTransportchequecancelorbounce:function(){
+        localStorage.setItem('curr_sess_page','');
+        document.querySelector('app-list').setPage("transport-cheque-bouncecancel","Cheque Bounce/Cancel");
+        document.querySelector('transport-cheque-bouncecancel').callService();
+        document.querySelector('transport-cheque-bouncecancel').FnRefresh();
+      },
+      FnAddStudent:function(){
+        localStorage.setItem('curr_sess_page','');
+        this.$.transportfeeservice.fetchgradeService();
+        // this.$.transportfeeservice.fetchsectionService();
+        document.querySelector('add-newstudent-card').FnRefresh();
+      },
+      FnTransportSearchReceipt:function(){
+        localStorage.setItem('curr_sess_page','');
+        this.$.scheduleservice.fetchacademicyearService();        
+        document.querySelector('app-list').setPage("transport-receipt-searchcard","Search Receipt");
+        document.querySelector('transport-receipt-searchcard').callService();
+        document.querySelector('transport-receipt-searchcard').ready();
+      },
+      FnDefaulterUpdate:function(){
+        localStorage.setItem('curr_sess_page','');
+        document.querySelector('app-list').setPage("defaulter-update","Defaulter Update");
+        document.querySelector('defaulter-update').callService();
+        document.querySelector('defaulter-update').ready();
+      },
+      FnPendingCheques:function(){
+        localStorage.setItem('curr_sess_page','');
+        document.querySelector('app-list').setPage("pendingcheques-report","Pending Cheques Report");
+        document.querySelector('pendingcheques-report').ready();
+        document.querySelector('pendingcheques-report').FnRefresh();
+        document.querySelector('pendingcheques-report').FnCallService();
+      },
+      FnPendingFeeReport:function(){
+        localStorage.setItem('curr_sess_page','');
+        this.$.scheduleservice.fetchacademicyearService();
+        this.$.scheduleservice.fetchgradeforreportService();
+        document.querySelector('app-list').setPage("pendingfee-report","Fee Paid & Due Report");
+        document.querySelector('pendingfee-report').ready();
+        document.querySelector('pendingfee-report').FnRefresh();
+        // document.querySelector('pendingfee-report').FnCallService();
+      },
+      FnCollectionDueReport:function(){
+        localStorage.setItem('curr_sess_page','');
+        this.$.scheduleservice.fetchacademicyearService();
+        this.$.scheduleservice.fetchgradeforreportService();
+        document.querySelector('app-list').setPage("collection-due-report","Due Report");
+        document.querySelector('collection-due-report').ready();
+        document.querySelector('collection-due-report').FnRefresh();
+      },
+      FnDetailduereport:function(){
+        localStorage.setItem('curr_sess_page','');
+        this.$.scheduleservice.fetchacademicyearService();
+        this.$.scheduleservice.fetchgradeforreportService();
+        document.querySelector('app-list').setPage("detailed-feedue-report","Due Report");
+        document.querySelector('detailed-feedue-report').ready();
+        document.querySelector('detailed-feedue-report').FnRefresh();
+        document.querySelector('detailed-feedue-report').FnCallService();
+      },
+      FnProcessreport:function(){
+        localStorage.setItem('curr_sess_page','');
+        this.$.scheduleservice.fetchacademicyearService();
+        this.$.scheduleservice.fetchgradeforreportService();
+        document.querySelector('app-list').setPage("process-report","Due Report");
+        document.querySelector('process-report').ready();
+        document.querySelector('process-report').FnRefresh();
+        document.querySelector('process-report').FnCallService();
+      },
+      // FnDailycollectionDashboard:function(){
+      //   localStorage.setItem('curr_sess_page','');
+      //   this.$.scheduleservice.fetchacademicyearService();
+      //   this.$.scheduleservice.fetchgradeforreportService();
+      //   document.querySelector('app-list').setPage("dailycollection-dashboard","Daily Collection Dashboard");
+      //   document.querySelector('dailycollection-dashboard').ready();
+      //   document.querySelector('dailycollection-dashboard').FnRefresh();
+      //   document.querySelector('dailycollection-dashboard').FnCallService();
+      // },
+      FnDailycollectionDashboard:function(){
+        localStorage.setItem('curr_sess_page','');
+        this.$.scheduleservice.fetchacademicyearService();
+        this.$.scheduleservice.fetchgradeforreportService();
+        document.querySelector('app-list').setPage("collection-daily-collection-dashboard","Daily Collection Dashboard");
+        document.querySelector('collection-daily-collection-dashboard').ready();
+        document.querySelector('collection-daily-collection-dashboard').FnRefresh();
+        document.querySelector('collection-daily-collection-dashboard').callService();
+      },
+      FnCollectionDashboard:function(){
+        localStorage.setItem('curr_sess_page','');
+        this.$.scheduleservice.fetchschoolService();
+        this.$.scheduleservice.fetchacademicyearService();
+        this.$.scheduleservice.fetchgradeforreportService();
+        document.querySelector('app-list').setPage("consolidated-dashboardreport","Collection Dashboard");
+        document.querySelector('consolidated-dashboardreport').ready();
+        document.querySelector('consolidated-dashboardreport').FnRefresh();
+        document.querySelector('consolidated-dashboardreport').FnCallService();
+      },
+      FnNotpaidReport:function(){
+        localStorage.setItem('curr_sess_page','');
+        this.$.scheduleservice.fetchacademicyearService();
+        this.$.scheduleservice.fetchgradeforreportService();
+        document.querySelector('app-list').setPage("notpaid-report","Not paid list");
+        document.querySelector('notpaid-report').ready();
+        document.querySelector('notpaid-report').FnRefresh();
+        document.querySelector('notpaid-report').FnCallService();
+      },
+      FnDailyCollectionReport:function(){
+        localStorage.setItem('curr_sess_page','');
+        this.$.scheduleservice.fetchgradeforreportService();
+        document.querySelector('app-list').setPage("dailycollection-report","Daily Collection Report");
+        document.querySelector('dailycollection-report').FnRefresh();
+        document.querySelector('dailycollection-report').FnCallService();
+      },
+      FnShowBounceCheques:function(){
+        localStorage.setItem('curr_sess_page','');
+        document.querySelector('app-list').setPage("bouncecheque-displaycard","Bounce Cheques");
+        document.querySelector('bouncecheque-displaycard').FnCallService();
+      },
+      Fncounsellorreport:function(){
+        localStorage.setItem('curr_sess_page','');
+        document.querySelector('app-list').setPage("counsellor-report","Counsellor Report");
+        document.querySelector('reporting-service').counsellorreport();
+      },
+      FnBounceProcessing:function(){
+        localStorage.setItem('curr_sess_page','');
+        document.querySelector('app-list').setPage("chequebounceorcancel-card","Cheque Bounce / Cancel");
+        document.querySelector('chequebounceorcancel-card').FnRefresh();
+        document.querySelector('chequebounceorcancel-card').callService();
+      },
+      FnTprealisation:function(){
+        localStorage.setItem('curr_sess_page','');
+        document.querySelector('app-list').setPage("tp-realisation-card","Third Party Realization");
+        document.querySelector('tp-realisation-card').callService();
+      },
+      FnChequeEditDelete:function(){
+        localStorage.setItem('curr_sess_page','');
+        document.querySelector('app-list').setPage("editdelete-cheques-card","Edit/Delete Cheques");
+        document.querySelector('editdelete-cheques-card').FnRefresh();
+        document.querySelector('editdelete-cheques-card').callService();
+      },
+      FnTransportChequeEditDelete:function(){
+        localStorage.setItem('curr_sess_page','');
+        document.querySelector('app-list').setPage("transport-editdelete-cheque","Edit/Delete Cheques");
+        document.querySelector('transport-editdelete-cheque').FnRefresh();
+        document.querySelector('transport-editdelete-cheque').callService();
+      },
+      FnProvisionfee:function(){
+        localStorage.setItem('curr_sess_page','');
+        localStorage.setItem("curr_sess_feetypepayment","Commitment Fee (Ins1)");
+        localStorage.setItem("curr_sess_provisionflag",1);
+        document.querySelector('provisionalfee-card').callService();
+      },
+      FnPdcCheques:function(){
+        localStorage.setItem('curr_sess_page','');
+        document.querySelector('app-list').setPage("pdccheques-report-card","PDC Cheques");
+        document.querySelector('pdccheques-report-card').callService();
+      },
+      FnchequeCollectionReport:function(){
+        localStorage.setItem('curr_sess_page','');
+        document.querySelector('app-list').setPage("chequecollection-report","Cheque Collection");
+        document.querySelector('chequecollection-report').callService();
+      },
+      FnPromotion:function(){
+        localStorage.setItem('curr_sess_page','');
+          this.$.scheduleservice.fetchgradeService();
+          this.$.scheduleservice.fetchacademicyearService();
+          document.querySelector('app-list').setPage("promotion-card","Promote Students");
+      },
+      FnCancelEnrollment:function(){
+        localStorage.setItem('curr_sess_page','');
+        this.$.scheduleservice.fetchacademicyearService();
+        document.querySelector('app-list').setPage("cancel-enrollment-card","Cancel Enrollment");
+        document.querySelector('cancel-enrollment-card').FnRefresh();
+      },
+      FnDiscountStructureReport:function(){
+        localStorage.setItem('curr_sess_page','');
+        this.$.scheduleservice.fetchgradeforreportService();
+        this.$.scheduleservice.fetchacademicyearService();
+        this.$.scheduleservice.fetchadmissionyearService();
+        document.querySelector('app-list').setPage("discount-structure-report","Discount master");
+        document.querySelector('discount-structure-report').FnRefresh();
+        document.querySelector('discount-structure-report').callService();
+      },
+      FnFeeStructureReport:function(){
+        localStorage.setItem('curr_sess_page','');
+        this.$.scheduleservice.fetchgradeforreportService();
+        this.$.scheduleservice.fetchacademicyearService();
+        this.$.scheduleservice.fetchadmissionyearService();
+        document.querySelector('app-list').setPage("fee-structure-report","Fee master");
+        document.querySelector('fee-structure-report').FnRefresh();
+        document.querySelector('fee-structure-report').callService();
+      },
+      FnFeeStructureForGradeReport:function(){
+        localStorage.setItem('curr_sess_page','');
+        this.$.scheduleservice.fetchgradeforreportService();
+        this.$.scheduleservice.fetchacademicyearService();
+        this.$.scheduleservice.fetchadmissionyearService();
+        document.querySelector('app-list').setPage("gradewise-fee-structure-report","Fee master");
+        document.querySelector('gradewise-fee-structure-report').FnRefresh();
+        document.querySelector('gradewise-fee-structure-report').callService();
+      },
+      FnEnrollmentreport:function(){
+        localStorage.setItem('curr_sess_page','');
+        this.$.scheduleservice.fetchgradeforreportService();
+        this.$.scheduleservice.fetchacademicyearService();
+        this.$.scheduleservice.fetchadmissionyearService();
+        document.querySelector('app-list').setPage("enrollment-report","Enrollments");
+        document.querySelector('enrollment-report').FnRefresh();
+        document.querySelector('enrollment-report').callService();
+      },
+      FnTCreport:function(){
+        localStorage.setItem('curr_sess_page','');
+        this.$.scheduleservice.fetchgradeforreportService();
+        this.$.scheduleservice.fetchacademicyearService();
+        document.querySelector('app-list').setPage("tc-report","TC Students");
+        document.querySelector('tc-report').FnRefresh();
+        document.querySelector('tc-report').callService();
+      },
+      FnWithdrawnreport:function(){
+        localStorage.setItem('curr_sess_page','');
+        this.$.scheduleservice.fetchgradeforreportService();
+        this.$.scheduleservice.fetchacademicyearService();
+        document.querySelector('app-list').setPage("withdrawal-report","Withdrawn Students");
+        document.querySelector('withdrawal-report').FnRefresh();
+        document.querySelector('withdrawal-report').callService();
+      },
+      FnRTEreport:function(){
+        localStorage.setItem('curr_sess_page','');
+        this.$.scheduleservice.fetchgradeforreportService();
+        this.$.scheduleservice.fetchacademicyearService();
+        document.querySelector('app-list').setPage("rte-report","RTE Students");
+        document.querySelector('rte-report').FnRefresh();
+        document.querySelector('rte-report').callService();
+      },
+      FnEnrollmentDashboard:function(){
+        document.querySelector('app-list').setPage("enrollment-daily-dashboard","Enrollment Daily Dashboard");
+        this.$.scheduleservice.fetchacademicyearService();
+        document.querySelector('enrollment-daily-dashboard').FnRefresh();
+        document.querySelector('enrollment-daily-dashboard').callService();
+      },
+      FnAdmissionDashboard:function(){
+        document.querySelector('app-list').setPage("enrollment-dashboard-card","Enrollment Dashboard");
+        this.$.scheduleservice.fetchacademicyearService();
+        document.querySelector('enrollment-dashboard-card').FnRefresh();
+        document.querySelector('enrollment-dashboard-card').callService();
+      },
+      FnBounceCollectionReport:function(){
+        document.querySelector('app-list').setPage("bounce-collection-report-card","Bounce Collection");
+        document.querySelector('bounce-collection-report-card').FnRefresh();
+        document.querySelector('bounce-collection-report-card').callService();
+      },
+      FnTCCollectionReport:function(){
+        document.querySelector('app-list').setPage("tc-collection-report-card","TC Collection");
+        document.querySelector('tc-collection-report-card').FnRefresh();
+        document.querySelector('tc-collection-report-card').callService();
+      },
+      FnWithdrawCollectionReport:function(){
+        document.querySelector('app-list').setPage("withdraw-collection-report-card","Withdraw Collection");
+        document.querySelector('withdraw-collection-report-card').FnRefresh();
+        document.querySelector('withdraw-collection-report-card').callService();
+      },
+      FnApplnFeeCollectionReport:function(){
+        document.querySelector('app-list').setPage("appln-collection-report-card","Application Fee Collection");
+        document.querySelector('appln-collection-report-card').FnRefresh();
+        document.querySelector('appln-collection-report-card').callService();
+      },
+      FnRegFeeCollectionReport:function(){
+        document.querySelector('app-list').setPage("regfee-collection-report-card","Registration Fee Collection");
+        document.querySelector('regfee-collection-report-card').FnRefresh();
+        document.querySelector('regfee-collection-report-card').callService();
+      },
+      FnSchoolFeeCollectionReport:function(){
+        document.querySelector('app-list').setPage("schoolfee-collection-report-card","School Fee Collection");
+        document.querySelector('schoolfee-collection-report-card').FnRefresh();
+        document.querySelector('schoolfee-collection-report-card').callService();
+      },
+      FnLateFeeCollectionReport:function(){
+        document.querySelector('app-list').setPage("latefee-collection-report-card","Latefee Collection");
+        document.querySelector('latefee-collection-report-card').FnRefresh();
+        document.querySelector('latefee-collection-report-card').callService();
+      },
+      FnAdhocFeeCollectionReport:function(){
+        document.querySelector('app-list').setPage("adhocfee-collection-report-card","Adhoc Fee Collection");
+        document.querySelector('adhocfee-collection-report-card').FnRefresh();
+        document.querySelector('adhocfee-collection-report-card').callService();
+      },
+      FnTPPendingCollectionReport:function(){
+        document.querySelector('app-list').setPage("tppending-collection-report-card","Third Party Pending Collection");
+        document.querySelector('tppending-collection-report-card').FnRefresh();
+        document.querySelector('tppending-collection-report-card').callService();
+      },
+      FnRefundCollectionReport:function(){
+        document.querySelector('app-list').setPage("refund-collection-card","Refund Collection");
+        document.querySelector('refund-collection-card').FnRefresh();
+        document.querySelector('refund-collection-card').callService();
+      },
+      FnCollectionReconReport:function(){
+        document.querySelector('app-list').setPage("collection-recon-report","Collection Reconciliation");
+        document.querySelector('collection-recon-report').FnRefresh();
+        document.querySelector('collection-recon-report').callService();
+      },
+      FnSetRoleView:function(arr){
+        // alert(JSON.stringify(arr));
+        this.schoolname=localStorage.getItem("schoolname");
+        this.username=localStorage.getItem("employeename");
+        for(var i=0;i<arr.length;i++){
+          var id=((arr[i].menu_id).replace(/[^a-zA-Z0-9]/g, '')).toLowerCase();
+          // alert(id);
+          if((arr[i].status).toLowerCase()=="true"){
+          // alert('true');
+          document.getElementById(''+id).style.visibility="visible";
+          }
+          if((arr[i].status).toLowerCase()=="false"){
+          // alert('false');
+          document.getElementById(''+id).style.display="none";
+          }
+        }
+        if(localStorage.getItem("roleid")=="ROLE106"){
+          // alert('true');
+          this.hideschoolmenu=false;
+          this.hideschoolname=true;
+        }
+        else{
+          // alert('false');
+          this.hideschoolmenu=true;
+          this.hideschoolname=false;
+        }
+        this.$.service.getenquirycount();
+        this.$.service.getadmittedcount();
+      },
+      FnSignout:function(){
+        window.location.href="../index.html";
+      }
+    });
+  })();
+  </script>
+</dom-module>

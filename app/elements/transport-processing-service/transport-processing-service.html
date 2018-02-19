@@ -1,0 +1,184 @@
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+
+<dom-module id="transport-processing-service">
+  <template>
+    <iron-ajax
+        method="post"
+        id="fetchalltransportstudentajax"
+        url="{{fetchalltransportstudenturl}}"
+        params="{{fetchalltransportstudentparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="fetchalltransportstudentResponse"
+        debounce-duration="300"
+        >
+    <iron-ajax
+        method="post"
+        id="processtransportbouncechequeajax"
+        url="{{processtransportbouncechequeurl}}"
+        params="{{processtransportbouncechequeparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="processtransportbouncechequeResponse"
+        debounce-duration="300"
+        >
+    <iron-ajax
+        method="post"
+        id="updatetransportchequestatusajax"
+        url="{{updatetransportchequestatusurl}}"
+        params="{{updatetransportchequestatusparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="updatetransportchequestatusResponse"
+        debounce-duration="300"
+        >
+     <iron-ajax
+        method="post"
+        id="transportdailycollectionajax"
+        url="{{transportdailycollectionurl}}"
+        params="{{transportdailycollectionparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="transportdailycollectionResponse"
+        debounce-duration="300"
+        >
+
+    
+  </template>
+  <script>
+  (function() {
+    'use strict';
+    var count1=0,count2=0;
+    Polymer({
+      is: 'transport-processing-service',
+      fetchalltransportstudentService:function(){
+        this.fetchalltransportstudenturl=sessionStorage.getItem("addrinfo")+"/fetchalltransportstudent-service";
+        var obj={"schoolid":"","prefixid":""};
+        obj.schoolid=localStorage.getItem("schoolid");
+        obj.academicyear=localStorage.getItem("curr_sess_academicyear");
+        this.fetchalltransportstudentparam=obj;
+        this.$.fetchalltransportstudentajax.generateRequest();
+      },
+      fetchalltransportstudentResponse:function(e){
+        var arr=e.detail.response.returnval;
+        document.querySelector('transport-cheque-bouncecancel').autocompletearr(arr);
+      },
+      processtransportbouncechequeService:function(studentid,studentname){
+        this.processtransportbouncechequeurl=sessionStorage.getItem("addrinfo")+"/processtransportbouncecheque-servicee";
+        var obj={"schoolid":"","academicyear":"","id":""};
+        obj.schoolid=localStorage.getItem("schoolid");
+        obj.academicyear=localStorage.getItem("curr_sess_academicyear");
+        obj.id=studentid;
+        obj.studentname=studentname;
+        this.processtransportbouncechequeparam=obj;
+        this.$.processtransportbouncechequeajax.generateRequest();
+      },
+      processtransportbouncechequeResponse:function(e){
+        var arr=e.detail.response.returnval;
+        // alert(JSON.stringify(arr));
+        var temparr=[];
+        var t=1;
+        for(var i=0;i<arr.length;i++){          
+          // alert(arr[i].installtype);
+          if(arr[i].installtype=="Installment1"&&arr[i].installment_1!=""&&arr[i].installment_1>0&&arr[i].install1_status!='cancel'&&arr[i].install1_status!='bounce'){
+            // alert('one');
+            var obj={};
+            obj.sno=t;
+            obj.student_id=arr[i].student_id;
+            obj.student_name=arr[i].name;
+            obj.installtype="Installment1";
+            obj.cheque_no=arr[i].cheque_no;
+            obj.bank_name=arr[i].bank_name;
+            obj.cheque_date=arr[i].cheque_date;
+            obj.installment_amount=arr[i].installment_1;
+            temparr.push(obj);
+            t=t+1;
+          }
+          if(arr[i].installtype=="Installment2"&&arr[i].installment_2!=""&&arr[i].installment_2>0&&arr[i].install2_status!='cancel'&&arr[i].install2_status!='bounce'){
+            // alert('two');
+            var obj={};
+            obj.sno=t;
+            obj.student_id=arr[i].student_id;
+            obj.student_name=arr[i].name;
+            obj.installtype="Installment2";
+            obj.cheque_no=arr[i].cheque_no;
+            obj.bank_name=arr[i].bank_name;
+            obj.cheque_date=arr[i].cheque_date;
+            obj.installment_amount=arr[i].installment_2;
+            temparr.push(obj);
+            t=t+1;
+          }
+        }
+        // alert(JSON.stringify(temparr));
+        document.querySelector('transport-cheque-bouncecancel').chequearr=temparr;
+        document.querySelector('transport-cheque-bouncecancel').FnSetChequeArray(temparr);
+      },
+      FnUpdateChequeStatus:function(cheque,studentname){
+        count1=cheque.length;
+        // alert(JSON.stringify(cheque));
+        this.updatetransportchequestatusurl=sessionStorage.getItem("addrinfo")+"/updatetransportchequestatus-service";
+        for(var i=0;i<cheque.length;i++){ 
+          var obj={"schoolid":""};
+          var d=new Date();        
+        obj.schoolid=localStorage.getItem("schoolid");
+        obj.academicyear=localStorage.getItem("curr_sess_academicyear"); 
+        obj.studentid=cheque[i].student_id; 
+        obj.studentname=cheque[i].student_name; 
+        obj.installmenttype=cheque[i].installtype; 
+        obj.chequeno=(cheque[i].cheque_no);        
+        obj.bankname=cheque[i].bank_name; 
+        obj.chequestatus=cheque[i].status; 
+        obj.waiveoff=cheque[i].waiveoff;
+        obj.studentname=studentname;
+        obj.canceldate=(d.getMonth()+1)+"/"+d.getDate()+"/"+d.getFullYear();
+        this.updatetransportchequestatusparam=obj;     
+        this.$.updatetransportchequestatusajax.generateRequest();
+        }
+      },
+      updatetransportchequestatusResponse:function(e){
+        if(e.detail.response.returnval=="Updated!")
+          count2++;
+        if(count1==count2){
+          alert('Cheques are updated!');
+          count1=0;
+          count2=0;
+          document.querySelector('transport-cheque-bouncecancel').FnRefresh();
+        }
+      },
+      FnFetchDailycollectionDashboardService:function(academicyear){
+        this.transportdailycollectionurl=sessionStorage.getItem("addrinfo")+"/transportdailycollection-service";
+        var obj={};
+        obj.academicyear=academicyear;
+        var d=new Date();
+        var da=d.getDate();
+        var mn=d.getMonth()+1;
+        var yr=d.getFullYear();
+        obj.currdate=mn+"/"+da+"/"+yr;
+        this.transportdailycollectionparam=obj;
+        this.$.transportdailycollectionajax.generateRequest();
+      },
+      transportdailycollectionResponse:function(e){
+        var total=e.detail.response.total;
+        var today=e.detail.response.today;
+        // alert(JSON.stringify(total));
+        // alert(JSON.stringify(today));
+        for(var i=0;i<total.length;i++){
+          for(var j=0;j<today.length;j++){
+            // alert(total[i].school_id+" "+today[j].school_id+" "+total[i].admission_status+" "+today[j].admission_status);
+            if(total[i].school_id==today[j].school_id&&total[i].admission_status==today[j].admission_status){
+              total[i].todaycnt=today[j].todaycnt;
+              total[i].todaytotal=today[j].todaytotal;
+              today.splice(j,1);
+              break;
+            }
+          }
+        }
+        // alert(JSON.stringify(total));
+        document.querySelector('transport-dashboard').FnShowTable();
+        document.querySelector('transport-dashboard').transportdailydashboardarr=total;
+      }
+    });
+  })();
+  </script>
+</dom-module>

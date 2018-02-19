@@ -1,0 +1,134 @@
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+
+<dom-module id="collection-fee-entry-card">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      .ccard{
+        @apply(--layout-horizontal);
+      }
+      .submode{
+       @apply(--layout-horizontal); 
+      }
+      collection-paymentsubmode-card{
+        margin-left: 3%;
+      }
+    </style>
+    <div class="ccard" width="100%">
+    <div style="margin-left: 5%;width: 40%;">
+      <table class="table table-hover">
+        <tr><th>Payment mode</th><td width="8%"></td>
+        <td>
+          <paper-dropdown-menu label="Select your payment mode here" on-iron-select="FnSelectMode">
+            <paper-listbox class="dropdown-content" id="collectionfeeentrymode">
+            <template  is="dom-repeat" items="{{paymentmodearr}}" as="item">
+              <paper-item value="{{item.payment_modeid}}">{{item.payment_modename}}</paper-item>
+            </template>
+            </paper-listbox>
+          </paper-dropdown-menu>
+        </td>
+        </tr>
+        <tr><th>Amount</th><td width="8%"></td><td><paper-input pattern="[0-9]*" value="{{amount}}"></paper-input></td></tr>
+        <tr><th>Receipt Number</th><td width="8%"></td><td>{{receiptno}}</paper-input></td></tr>
+        <tr><th>Date of payment</th><td width="8%"></td><td><p hidden>{{dateofpayment}}</p><collection-receipt-datepicker></collection-receipt-datepicker></td></tr>
+        <tr><th>Due Amount</th><td width="8%"></td><td>{{dueamount}}</td></tr>
+      </table>
+    </div>
+    <br>
+    <div  style="margin-left: 5%;width: 40%;">
+      <table class="table table-hover" hidden$="{{hideadditionalinfo}}">
+        <tr><th>Cheque/Transaction #</th><td width="8%"></td>
+        <td><paper-input value="{{transactionno}}"></paper-input>
+        </td>
+        </tr>
+        <tr><th>Bank Name</th><td width="8%"></td><td><paper-input value="{{transactionname}}"></paper-input></td></tr>
+        <tr><th>Cheque/Transaction Date</th><td width="8%"></td><td><p hidden>{{transactiondate}}</p><collection-receipt-transaction-datepicker></collection-receipt-transaction-datepicker></td></tr>
+      </table>
+    </div>
+    
+      <div style="text-align: right; margin-right: 2%;" class="buttonpanel" hidden$="{{hidesavepaymenttype}}"><span class="panel-icon"><a href=""><i class="fa fa-save fa-lg" aria-hidden="true" on-click="FnSavePayment"></i></a></span>
+      <!-- <span class="panel-icon"><a href=""><i class="fa fa-edit fa-lg" aria-hidden="true" on-click="FnDeletePayment"></i></a></span> -->
+      </div>
+    
+    </div>
+    <paper-dialog id="collectionfeeentrymodedialog" style="width: 30%;">
+    <h2>Select Mode</h2>
+    <div class="submode">
+    <template  is="dom-repeat" items="{{paymentsubmodearr}}" as="item">
+    <collection-paymentsubmode-card subtype="{{item.sub_type}}" subtypeid="{{item.sub_typeid}}"></collection-paymentsubmode-card>
+    </template>
+    </div>
+    <div class="buttons">
+    <paper-button on-click="FnOk">Ok</paper-button>
+    <paper-button on-click="FnCancel">Cancel</paper-button>
+    </div>
+    </paper-dialog>
+    <fee-collection-service id="feecollectionservice"></fee-collection-service>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+    Polymer({
+      is: 'collection-fee-entry-card',
+      ready:function(){
+        this.hideadditionalinfo=true;
+        var d=new Date();
+        var currdate=(d.getMonth()+1)+"/"+d.getDate()+"/"+d.getFullYear();
+        this.transactiondate=currdate;
+        this.dateofpayment=currdate;
+      },
+      FnSelectMode:function(e){
+        this.modeid=(e.target.selectedItem.value).trim();
+        this.modename=(e.target.selectedItem.textContent).trim();
+        this.$.feecollectionservice.fetchcollectionpaymentsubmode(this.modeid,this.modename);
+      },
+      FnToggleModes:function(){
+        this.$.collectionfeeentrymodedialog.toggle();
+      },
+      FnOk:function(){
+        this.$.collectionfeeentrymodedialog.toggle();
+      },
+      FnCancel:function(){
+        this.$.collectionfeeentrymodedialog.toggle();
+      },
+      FnSetPaymentmodetype:function(typeid,typename){
+        this.subtypeid=typeid;
+      },
+      FnSetInfo:function(info_flag,sub_typeid){
+        if(info_flag=="1")
+          this.hideadditionalinfo=false
+        else
+          this.hideadditionalinfo=true;
+        this.subtypeid=sub_typeid;
+      },
+      FnSavePayment:function(){
+        if(parseFloat(this.amount)<=parseFloat(this.dueamount))
+        document.querySelector('collection-paymentinfo-card').FnSetPaymentInfo(this.modename,this.amount,this.receiptno,this.dateofpayment,this.dueamount,this.transactionno,this.transactionname,this.transactiondate,this.subtypeid);
+        else
+        {
+          this.amount="";
+          alert("Please check the amount!");
+        }
+      },
+      FnRefresh:function(){
+        document.querySelector('#collectionfeeentrymode').selected=-1;
+        this.receiptno="";
+        this.dateofpayment="";
+        this.dueamount="";
+        this.hideadditionalinfo=true;
+        this.transactionno="";
+        this.transactionname="";
+        this.transactiondate="";
+        this.amount="";
+        this.subtypeid="";
+        this.modename="";
+        // this.hidesavepaymenttype=true;
+        this.ready();
+      }
+    });
+  })();
+  </script>
+</dom-module>

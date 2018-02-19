@@ -1,0 +1,242 @@
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<link rel="import" href="..\..\bower_components/iron-pages/iron-pages.html">
+
+<dom-module id="fee-collection-home-card">
+  <template>
+    <style>
+      #spinner{
+            margin: 0;
+            padding: 0;
+            border: none;
+            background-color: transparent;
+          }
+          paper-tab{
+            width: 27%;
+          }
+          hr{
+            margin-top: -1%;
+          }
+    </style>
+    <div>
+       <div class="row">
+        <div class="well well-sm">
+          <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-5" style="margin-top: -1%;">
+                   <paper-input  label="Student Name" is="" value="{{value}}" on-keydown="FnSearchEnquiry"></paper-input>
+                   <paper-listbox class="dropdown-content" id="feecollectioninputname" on-iron-select="FnSelectEnquiry">
+                   <template is="dom-repeat" items="{{itemArray}}" as="item">
+                   <paper-item value="{{item.admission_no}}">{{item.itemdes}}</paper-item>
+                   </template>
+                   </paper-listbox>
+                </div>              
+            </div>
+          </div>
+        </div>
+    </div>  
+    <div hidden$="{{hidestudentdetailcard}}">
+    <div style="width:100%;">
+      <paper-tabs selected="0" scrollable style="width:100%;margin-left: -3%;">
+      <paper-tab><paper-button on-click="FnStudentInfo">STUDENT INFO</paper-button></paper-tab>
+      <paper-tab><paper-button on-click="FnFeeInfo">FEE INFO</paper-button></paper-tab>
+      <paper-tab><paper-button on-click="FnDiscountInfo">DISCOUNT INFO</paper-button></paper-tab>
+      <paper-tab><paper-button on-click="FnPaymentInfo">PAYMENT INFO</paper-button></paper-tab>
+      <paper-tab><paper-button on-click="FnReceiptInfo">RECEIPT INFO</paper-button></paper-tab>
+      </paper-tabs>
+    </div>
+    <hr>
+    <div hidden>
+    {{studentname}}{{admissionno}}{{academicyear}}{{admissionyear}}{{gradeid}}{{gradename}}{{admissionstatus}}
+    </div>
+    </div>
+    <iron-pages selected="{{page}}" attr-for-selected="data-category">
+      <section data-category="collection-studentinfo-card">
+        <collection-studentinfo-card studentinfoarr="{{studentinfoarr}}">
+        </collection-studentinfo-card>
+      </section>
+      <section data-category="collection-feeinfo-card">        
+        <collection-feeinfo-card feeinfoarr="{{feeinfoarr}}" feecode="{{feecode}}" totalfee="{{totalfee}}">          
+        </collection-feeinfo-card>       
+      </section>
+      <section data-category="collection-discountinfo-card">
+        <collection-discountinfo-card discountinfoarr="{{discountinfoarr}}" studentname={{studentname}} admissionno="{{admissionno}}" gradeid="{{gradeid}}" gradename="{{gradename}}" academicyear="{{academicyear}}" admissionyear="{{admissionyear}}">         
+        </collection-discountinfo-card>
+      </section>
+      <section data-category="collection-paymentinfo-card">        
+        <collection-paymentinfo-card feecode="{{feecode}}" paymenthistoryarr="{{paymenthistoryarr}}" paymentinfoarr="{{paymentinfoarr}}" feecode="{{feecode}}" totalfee="{{totalfee}}" studentname={{studentname}} admissionno="{{admissionno}}" gradeid="{{gradeid}}" gradename="{{gradename}}" academicyear="{{academicyear}}" admissionyear="{{admissionyear}}"
+        admissionstatus="{{admissionstatus}}">          
+        </collection-paymentinfo-card>        
+      </section>
+      <section data-category="collection-receiptinfo-card">        
+        <collection-receiptinfo-card paymenthistoryarr="{{paymenthistoryarr}}" studentname="{{studentname}}" admissionno="{{admissionno}}" gradeid="{{gradeid}}" gradename="{{gradename}}" academicyear="{{academicyear}}" admissionyear="{{admissionyear}}"
+        admissionstatus="{{admissionstatus}}" fathername="{{fathername}}" mothername="{{mothername}}">          
+        </collection-receiptinfo-card>        
+      </section>
+    </iron-pages>
+    </div>
+    <div class="spinner"><paper-dialog modal id="spinner" entry-animation="scale-up-animation" exit-animation="fade-out-animation" with-backdrop><paper-spinner active></paper-spinner></paper-dialog></div>
+    <fee-collection-service id="feecollectionservice"></fee-collection-service>  
+  </template>
+  <script>
+  (function() {
+    'use strict';
+    var academicyear="";
+    var item=[];
+    Polymer({
+      is: 'fee-collection-home-card',
+      ready:function(){
+      this.hidestudentdetailcard=true;
+      this.querySelector('#feecollectioninputname').style.visibility='hidden';
+      this.page="collection-studentinfo-card";
+      },
+      FnStudentInfo:function(){
+        this.$.spinner.toggle();
+        this.page="collection-studentinfo-card";
+        localStorage.setItem("curr_sess_spinflag",1);
+        this.$.feecollectionservice.fetchstudentinfoforcollectionService(localStorage.getItem("curr_sess_enquiryno"));
+      },
+      FnFeeInfo:function(){
+        this.$.spinner.toggle();
+        this.page="collection-feeinfo-card";
+        localStorage.setItem("curr_sess_spinflag",1);
+        this.$.feecollectionservice.fetchfeeinfoforcollectionService(localStorage.getItem("curr_sess_enquiryno"));
+      },
+      FnDiscountInfo:function(){
+        this.$.spinner.toggle();
+        this.page="collection-discountinfo-card";
+        document.querySelector('collection-discountinfo-card').FnRefresh();
+        localStorage.setItem("curr_sess_spinflag",1);
+        this.$.feecollectionservice.fetchdiscountinfoforcollectionService(localStorage.getItem("curr_sess_enquiryno"),this.academicyear);
+      },
+      FnPaymentInfo:function(){
+        this.$.spinner.toggle();
+        this.page="collection-paymentinfo-card";
+        localStorage.setItem("curr_sess_spinflag",1);
+        document.querySelector('collection-paymentinfo-card').ready();
+        // document.querySelector('collection-paymentinfo-card').FnRefresh();
+        this.$.feecollectionservice.fetchcollectionpaymenthistoryService(this.academicyear,this.admissionyear,this.gradeid,this.gradename,this.admissionno);
+        this.$.feecollectionservice.fetchfeecollectionpaymentinfoService(this.academicyear,this.admissionyear,this.gradeid,this.gradename,this.admissionno);
+        // this.$.feecollectionservice.fetchpaymentinfoforcollectionService(localStorage.getItem("curr_sess_enquiryno"));
+      },
+      FnReceiptInfo:function(){
+        this.$.spinner.toggle();
+        this.page="collection-receiptinfo-card";
+        localStorage.setItem("curr_sess_spinflag",1);
+        document.querySelector('collection-receiptinfo-card').FnRefresh();
+        this.$.feecollectionservice.fetchcollectionpaymenthistoryService1(this.academicyear,this.admissionyear,this.gradeid,this.gradename,this.admissionno);
+        this.$.feecollectionservice.fetchreceiptinfoforcollectionService(localStorage.getItem("curr_sess_enquiryno"));
+      },
+      callService:function(){
+        this.$.feecollectionservice.fetchallstudentforcollectionService();        
+      },
+      autocompletearr:function(autocompletearr)
+      {     
+        item=autocompletearr;
+      },
+      FnSearchEnquiry:function(e){
+      if(e.keyCode==13|| e.keyCode==40)
+      this.querySelector('#feecollectioninputname').focus();
+      var arr=[];
+      arr.push({"itemdes":"-----Select-----"});
+      this.querySelector('#feecollectioninputname').style.visibility='visible';
+      if(e.keyCode==8){
+        this.itemflag="true";
+        this.itemval="";
+        var len=(this.value).length;
+        if(len<=1){
+          this.querySelector('#feecollectioninputname').style.visibility='hidden';
+          this.itemArray="";
+          this.itemval="";
+        }
+        if(len>1){
+          this.querySelector('#feecollectioninputname').style.visibility='visible';
+          var backsubval=(((this.value).substring(0,(len-1))).trim()).toUpperCase();
+          for(var i=0;i<item.length;i++)
+          {            
+            var subval=((item[i].student_name).trim()).substring(0,backsubval.length);
+            if((item[i].student_name).toUpperCase().indexOf((this.value).toUpperCase())!=-1)
+            {
+              var obj={"itemdes":"","enquiry_no":""};
+              obj.itemdes=item[i].student_name;
+              obj.admission_no=item[i].admission_no;
+              arr.push(obj);
+            }
+          }
+          this.itemArray=arr;
+        }
+      }
+      if(e.keyCode!=8&& e.keyCode!=16&& e.keyCode!=13 && e.keyCode!=38&&e.keyCode!=40&&e.keyCode!=37&&e.keyCode!=39){
+        if(this.itemflag=="true") {
+          this.itemval = (this.value).toUpperCase()+String.fromCharCode((e.keyCode)).toUpperCase();
+          this.itemflag="false";
+        }
+        else
+        this.itemval = this.value +String.fromCharCode((e.keyCode));
+        if(this.itemval.length>0)
+        {
+          for(var i=0;i<item.length;i++)
+          {
+            var subval=((item[i].student_name).trim()).substring(0,this.itemval.length);
+            if((item[i].student_name).toUpperCase().indexOf((this.itemval).toUpperCase())!=-1)
+            {
+              var obj={"itemdes":"","enquiry_no":""};
+              obj.itemdes=item[i].student_name;
+              obj.admission_no=item[i].admission_no;
+              arr.push(obj);
+            }
+          }
+          if(arr.length>0)
+            this.itemArray=arr;
+          else
+          {
+            var obj={"itemdes":"","enquiry_no":""};
+            obj.itemdes="No items found";
+            arr.push(obj);
+            this.itemArray=arr;
+          }
+        }
+      }
+    },
+    FnSelectEnquiry:function(e){
+    this.querySelector('#feecollectioninputname').style.visibility='hidden';
+    var enquiry_name = e.target.selectedItem.textContent.trim();
+    var admission_no = e.target.selectedItem.value.trim();
+    // alert(admission_no);
+    localStorage.setItem("curr_sess_enquiryno",admission_no);
+    localStorage.setItem("curr_sess_enquiryname",enquiry_name);
+    this.itemArray=[];
+    document.querySelector('#feecollectioninputname').selected=-1;
+    this.value=enquiry_name;
+    localStorage.setItem("curr_sess_spinflag",0);
+    this.$.spinner.toggle();
+    this.$.feecollectionservice.fetchstudentinfoforcollectionService(localStorage.getItem("curr_sess_enquiryno"));
+    // this.$.feecollectionservice.fetchfeeinfoforcollectionService(admission_no);
+    // this.$.feecollectionservice.fetchdiscountinfoforcollectionService(admission_no);
+    // this.$.feecollectionservice.fetchpaymentinfoforcollectionService(admission_no);
+    // this.$.feecollectionservice.fetchreceiptinfoforcollectionService(admission_no);
+    },
+    FnProcess:function(){
+
+    },
+    FnRefresh:function(){
+        this.querySelector('#feecollectioninputname').style.visibility='hidden';
+        this.itemArray=[];
+        this.value="";
+        this.admissionno="";
+        this.studentname="";        
+        this.grade="";
+        this.hidestudentdetailcard=true;
+    },
+    Fnhidestudentdetailcard:function(){
+      // alert('coming!');
+      this.hidestudentdetailcard=false;
+      this.$.spinner.toggle();
+    },
+    FnToggleSpinner:function(){
+      // alert('come');
+      this.$.spinner.toggle();
+    }
+    });
+  })();
+  </script>
+</dom-module>

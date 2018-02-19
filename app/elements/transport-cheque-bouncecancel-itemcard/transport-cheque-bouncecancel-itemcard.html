@@ -1,0 +1,94 @@
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+
+<dom-module id="transport-cheque-bouncecancel-itemcard">
+  <template>
+    <style>
+    table{
+      width:130%;
+    }
+    td{
+      text-align: left;
+    }
+    paper-dialog{
+      width: 25%;
+      height: 30%;
+    }
+    </style>
+    <div>
+      <table class="table table-hover" id="collectionreport">
+      <thead>
+      <tr>
+        <td>{{sno}}</td><td width="90px" style="text-align: center;">{{enrno}}</td><td width="140px">{{studentname}}</td><td width="80px">{{grade}}</td><td width="150px">{{installmenttype}}</td><td width="120px">{{chequeno}}</td><td width="90px">{{bankname}}</td><td width="90px">{{chequedate}}</td><td width="100px">{{installmentamount}}</td><td><paper-checkbox id="transportbounce{{sno}}" class="checkbox" on-change="FnBounceHandler" style="margin-top: -1%;"></paper-checkbox></td><td><paper-checkbox id="transportcancel{{sno}}" class="checkbox" on-change="FnCancelHandler" style="margin-top: -1%;"></paper-checkbox></td>
+      </tr>
+      </thead>
+      </table>
+    </div>
+     <div>
+      <paper-dialog id="bouncewaiveoffdialog" modal>
+        <div>
+        <center>
+          <h4>Want to waiveoff bounce charge??</h4>
+          <br><br>
+          <paper-button on-click="FnWaiveoffYes">Yes</paper-button>
+          <paper-button on-click="FnWaiveoffNo">No</paper-button>
+        </center>
+        </div>
+      </paper-dialog>
+    </div>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+    var chequestatus="";
+    var checkedbox="";
+    Polymer({
+      is: 'transport-cheque-bouncecancel-itemcard',
+      FnWaiveoffYes:function(){
+        this.$.bouncewaiveoffdialog.toggle();
+        this.waiveoff=1;
+        if(document.querySelector('#transportbounce'+this.sno).checked==true)
+        document.querySelector('transport-cheque-bouncecancel').FnPushPopCheques(this.sno,chequestatus,1,this.waiveoff);
+        if(document.querySelector('#transportbounce'+this.sno).checked==false)
+        document.querySelector('transport-cheque-bouncecancel').FnPushPopCheques(this.sno,chequestatus,0,this.waiveoff);
+      },
+      FnWaiveoffNo:function(){
+        this.waiveoff=0;
+        this.$.bouncewaiveoffdialog.toggle();
+        if(document.querySelector('#transportbounce'+this.sno).checked==true)
+        document.querySelector('transport-cheque-bouncecancel').FnPushPopCheques(this.sno,chequestatus,1,this.waiveoff);
+        if(document.querySelector('#transportbounce'+this.sno).checked==false)
+        document.querySelector('transport-cheque-bouncecancel').FnPushPopCheques(this.sno,chequestatus,0,this.waiveoff);
+      },
+      FnBounceHandler:function(e){
+        chequestatus="bounce";
+        if(localStorage.getItem("roleid")=="ROLE106"){
+        this.$.bouncewaiveoffdialog.toggle();
+        }
+        else
+        {
+        this.waiveoff=0;
+        if(document.querySelector('#transportbounce'+this.sno).checked==true)
+        document.querySelector('transport-cheque-bouncecancel').FnPushPopCheques(this.sno,chequestatus,1,this.waiveoff);
+        if(document.querySelector('#transportbounce'+this.sno).checked==false)
+        document.querySelector('transport-cheque-bouncecancel').FnPushPopCheques(this.sno,chequestatus,0,this.waiveoff);
+        } 
+        // alert(document.querySelector('#transportbounce'+this.sno).checked);
+        
+      },
+      FnCancelHandler:function(e){
+        chequestatus="cancel";
+        this.waiveoff=1;
+        // alert(document.querySelector('#transportcancel'+this.sno).checked);
+        if(document.querySelector('#transportcancel'+this.sno).checked==true)
+        document.querySelector('transport-cheque-bouncecancel').FnPushPopCheques(this.sno,chequestatus,1,this.waiveoff);
+        if(document.querySelector('#transportcancel'+this.sno).checked==false)
+        document.querySelector('transport-cheque-bouncecancel').FnPushPopCheques(this.sno,chequestatus,0,this.waiveoff);
+      },
+      FnRefresh:function(){
+
+      }     
+    });
+  })();
+  </script>
+</dom-module>

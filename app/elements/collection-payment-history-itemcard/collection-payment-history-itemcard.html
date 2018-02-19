@@ -1,0 +1,36 @@
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+
+<dom-module id="collection-payment-history-itemcard">
+  <template>
+    <style>
+    .btn{
+        @apply(--layout-horizontal);
+    }
+    </style>
+    <div hidden>{{academicyear}}{{admissionno}}{{sno}}{{transactionno}}{{feetype}}
+      {{amount}}{{dateofpayment}}{{paymentmode}}
+      {{paymenttransactionno}}{{transactionname}}{{transactiondate}}
+      {{receiptno}}{{status}}{{paymenttype}}</div>
+    <div class="btn" hidden$="{{hideicon}}">
+      <span class="panel-icon"><a href=""><i class="fa fa-edit fa-lg" aria-hidden="true" on-click="FnEditPayment"></i></a></span>
+      <span class="panel-icon"><a href=""><i class="fa fa-trash-o fa-lg" aria-hidden="true" on-click="FnDeletePayment"></i></a></span>
+    </div>
+    <fee-collection-service id="feecollectionservice"></fee-collection-service>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+    Polymer({
+      is: 'collection-payment-history-itemcard',
+      FnEditPayment:function(){
+        document.querySelector('collection-paymentinfo-card').FnEditPayment(this.academicyear,this.admissionno,this.transactionno,this.feetype,this.amount,this.dop,this.paymentmode,this.paymenttransactionno,this.transactionname,this.transactiondate,this.receiptno,this.status,this.paymenttype);
+        document.querySelector('collection-fee-edit-card').FnSetEditInfo(this.academicyear,this.admissionno,this.transactionno,this.feetype,this.amount,this.dateofpayment,this.paymentmode,this.paymenttransactionno,this.transactionname,this.transactiondate,this.receiptno,this.status,this.paymenttype);
+      },
+      FnDeletePayment:function(){
+        this.$.feecollectionservice.deletecollectionpaymentService(this.admissionno,this.transactionno,this.feetype,this.academicyear);
+      }
+    });
+  })();
+  </script>
+</dom-module>

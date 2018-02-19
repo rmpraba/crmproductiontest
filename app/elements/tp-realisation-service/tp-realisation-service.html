@@ -1,0 +1,135 @@
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+
+<dom-module id="tp-realisation-service">
+  <template>
+    
+     <iron-ajax
+        method="post"
+        id="fetchtpstudentforsearchajax"
+        url="{{fetchtpstudentforsearchurl}}"
+        params="{{fetchtpstudentforsearchparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="fetchtpstudentforsearchResponse"
+        debounce-duration="300"
+        >
+      <iron-ajax
+        method="post"
+        id="fetchtpstudinfoajax"
+        url="{{fetchtpstudinfourl}}"
+        params="{{fetchtpstudinfoparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="fetchtpstudinfoResponse"
+        debounce-duration="300"
+        >
+      <iron-ajax
+        method="post"
+        id="processtprealisationajax"
+        url="{{processtprealisationurl}}"
+        params="{{processtprealisationparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="processtprealisationResponse"
+        debounce-duration="300"
+        >
+
+        
+      <iron-ajax
+        method="post"
+        id="checkalreadyinspaidajax"
+        url="{{checkalreadyinspaidurl}}"
+        params="{{checkalreadyinspaidparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="checkalreadyinspaidResponse"
+        debounce-duration="300"
+        >
+        
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'tp-realisation-service',
+
+      fetchtpstudentforsearchService:function(){
+        this.fetchtpstudentforsearchurl=sessionStorage.getItem("addrinfo")+"/fetchtpstudentforsearch-service";
+        var obj={"schoolid":"","academicyear":"","statusflag":""}  
+        obj.schoolid=localStorage.getItem("schoolid");  
+        this.fetchtpstudentforsearchparam=obj;     
+        this.$.fetchtpstudentforsearchajax.generateRequest();
+      },
+      fetchtpstudentforsearchResponse:function(e){
+        document.querySelector('tp-realisation-card').autocompletearr(e.detail.response.returnval);        
+      },
+      fetchtpstudinfoService:function(admissionno){
+        this.fetchtpstudinfourl=sessionStorage.getItem("addrinfo")+"/fetchtpstudinfo-service";
+        var obj={"schoolid":"","academicyear":"","statusflag":""}  
+        obj.schoolid=localStorage.getItem("schoolid");  
+        obj.admissionno=admissionno;
+        this.fetchtpstudinfoparam=obj;     
+        this.$.fetchtpstudinfoajax.generateRequest();
+      },
+      fetchtpstudinfoResponse:function(e){
+        var arr=e.detail.response.returnval;
+        for(var i=0;i<arr.length;i++){
+          arr[i].paid_amount=parseFloat(arr[i].installment_amount)-parseFloat(arr[i].difference_amount);
+          if(arr[i].difference_amount>0)
+          arr[i].due_amount=parseFloat(arr[i].installment_amount)-parseFloat(parseFloat(arr[i].installment_amount)-parseFloat(arr[i].difference_amount));
+          else
+          arr[i].due_amount=parseFloat(arr[i].installment_amount); 
+        }
+        document.querySelector('tp-realisation-card').tparr=arr;
+      },
+      processtprealisation:function(admissionno,studentname,grade,insamount,refno,amount,diffamt,installment,dueinstallment){
+        this.processtprealisationurl=sessionStorage.getItem("addrinfo")+"/processtprealisation-service";
+        var obj={"schoolid":"","academicyear":"","statusflag":""}  
+        obj.schoolid=localStorage.getItem("schoolid");
+        obj.academicyear=localStorage.getItem("curr_sess_academicyear"); 
+        obj.admissionno=admissionno;
+        obj.studentname=studentname;
+        obj.grade=grade;
+        obj.insamount=insamount;
+        obj.refno=refno;
+        obj.amount=amount;
+        obj.diffamount=diffamt;
+        obj.installment=installment;
+        obj.dueinstallment=dueinstallment;
+        var d=new Date();
+        var currdate=d.getDate()+"/"+((d.getMonth())+1)+"/"+d.getFullYear();
+        obj.createdby=localStorage.getItem("employeeid");  
+        // alert(currdate);
+        obj.realiseddate=localStorage.getItem("localsess_curr_date");
+        this.processtprealisationparam=obj;     
+        this.$.processtprealisationajax.generateRequest();
+      },
+      processtprealisationResponse:function(e){
+        alert(e.detail.response.returnval);
+        if(e.detail.response.returnval=="Done!!")
+          document.querySelector('tp-realisation-card').FnRefresh();
+      },
+      checkalreadyinspaidService:function(admissionno,installment){
+        this.checkalreadyinspaidurl=sessionStorage.getItem("addrinfo")+"/checkalreadyinspaid-service";
+        var obj={"schoolid":"","academicyear":"","statusflag":""}  
+        obj.schoolid=localStorage.getItem("schoolid");  
+        obj.admissionno=admissionno;
+        obj.installment=installment;
+        this.checkalreadyinspaidparam=obj;     
+        this.$.checkalreadyinspaidajax.generateRequest();
+      },
+      checkalreadyinspaidResponse:function(e){
+        if(e.detail.response.returnval!='no rows'){
+          alert('Amount already realised for this installment!!');
+          document.querySelector('tp-realisation-itemcard').FnRefresh();
+        }
+        else{
+
+        }
+      }
+    });
+  })();
+  </script>
+</dom-module>

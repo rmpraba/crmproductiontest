@@ -1,0 +1,59 @@
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<link rel="import" href="../processing-service/processing-service.html">
+
+<dom-module id="transport-editdelete-cheque-itemcard">
+  <template>
+    <style>
+    p{
+      width: 10%;
+    }
+    div{
+      @apply(--layout-horizontal);
+    }
+    </style>
+    <div>
+        <p>{{sno}}</p><p>{{studentid}}</p><p style="margin-left:5%;">{{studentname}}</p><p style="margin-left:5%;">{{installmenttype}}</p><p style="margin-left:5%;">{{chequeno}}</p><p style="margin-left:5%;">{{bankname}}</p><p style="margin-left:5%;">{{chequedate}}</p><p hidden$="{{hidebtn}}"><button class="btn" on-click="FnEditDeleteCheque" data-toggle="modal" data-target="#studentfollowup"><a>Edit/Delete</a></button></p>
+    </div>
+    <div>
+    <paper-dialog id="transporteditdeletecheque" modal>
+      <h4>EDIT/DELETE Cheques</h4>
+       <div  class="layout" style='margin-left: 5%;'><paper-input required error-message="needs Cheque number!" allowed-pattern="[0-9a-zA-Z ]" id="edchequeno" label="Cheque Number" value="{{chequeno}}"> </paper-input></div>
+       <div  class="layout" style='margin-left: 5%;margin-top: -2%;'> <paper-input required allowed-pattern="[a-zA-Z ]"  error-message="Requires bankName!"  id="edbankname" label="Bank Name" value="{{bankname}}"> </paper-input></div>
+       <div style="width: 100%;margin-top: -2%;margin-left: 3%;"><transport-cheque-datepicker showdate="{{chequedate}}"></transport-cheque-datepicker></div>
+       <div class="buttons" style="margin-left: -5%;">
+        <paper-button id="{{chequeno}}" class="btn btn-primary left" on-click="FnEditcheque">Save</paper-button>
+        <paper-button id="{{chequeno}}" class="btn btn-primary left" on-click="FnDeletecheque">Delete</paper-button>
+        <paper-button id="{{chequeno}}" class="btn btn-primary left" on-click="FnCancel">Close</paper-button>
+      </div>     
+    </paper-dialog>  
+    </div>
+    <transportfee-service id="transportservice"></transportfee-service>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+    var chequestatus="";
+    var checkedbox="";
+    Polymer({
+      is: 'transport-editdelete-cheque-itemcard',
+      FnEditDeleteCheque:function(){
+        this.$.transporteditdeletecheque.toggle();
+      },
+      FnEditcheque:function(e){
+        this.$.transporteditdeletecheque.toggle();
+        this.$.transportservice.editchequeService(this.studentid,this.studentname,this.chequeno,this.bankname,localStorage.getItem("curr_sess_chequedate"),this.installmenttype);
+      },
+      FnDeletecheque:function(e){
+        this.$.transporteditdeletecheque.toggle();
+        this.$.transportservice.deletechequeService(this.studentid,this.studentname,this.chequeno,this.bankname,localStorage.getItem("curr_sess_chequedate"),this.installmenttype);
+      },
+      FnCancel:function(){
+        this.$.transporteditdeletecheque.toggle(); 
+      },
+      FnRefresh:function(){
+      }     
+    });
+  })();
+  </script>
+</dom-module>

@@ -1,0 +1,129 @@
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+
+<dom-module id="collection-daily-collection-dashboard">
+  <template>
+    <style>
+      .datecard {
+        @apply(--layout-horizontal);
+      }
+      th,td{
+        width: 9%;
+        text-align: center;
+        height: 50px;
+      }
+      td{
+        text-align: center;
+      }
+    </style>
+    <div class="row">
+        <div class="well well-sm">
+          <div class="row">
+            <div class="col-md-12">
+            <div class="col-sm-3" style="margin-top: 2%;">
+            <h4>Select Academic Year :</h4>
+            </div>
+                 <div class="col-sm-5">
+          <paper-dropdown-menu label="Academic Year" attr-for-selected="value">
+            <paper-menu id="collectiondailydashboardacademicyear" class="dropdown-content" required on-iron-select="FnSelectAcademicYear" valueattr="value" >
+              <template  is="dom-repeat" items="{{academicarr}}" as="item">
+              <paper-item>{{item.academic_year}}</paper-item>
+              </template>
+            </paper-menu>
+          </paper-dropdown-menu> 
+          </div>
+
+                <div class="col-md-1" style="margin-top: 1%;margin-left: 20%;">
+                <p>Download
+                <a href="#">
+                <span disabled="{{disabledownload}}" class="glyphicon glyphicon-download-alt" onclick="tableToExcel('collectiondailycollectiondashboard', 'Collection Dashboard')"></span>
+                </a>
+                </p>
+                </div> 
+            </div>
+          </div>
+        </div>
+    </div>
+    
+    <div id="collectiondailycollectiondashboard" hidden="{{hidetable}}">
+    <h4>Daily Collection Dashboard</h4>
+     <table border="1" style="border-collapse: collapse;border: 1px grey;width: 100%;height: 25%;" cellspacing="10">
+      <thead>
+      <tr>
+        <th>Today's Collection</th><th>Today's PDC Collection</th><th>Month to Date Collection</th><th>Month to Date PDC Collection</th><th>Total Collection</th>
+      </tr>
+      </thead>
+      <tbody>
+        <template is="dom-repeat" items="{{collectiondashboardarr}}">
+          <tr><td>{{item.dc}}</td><td>{{item.dp}}</td><td>{{item.mc}}</td><td>{{item.mp}}</td><td>{{item.paid}}</td></tr>
+        </template>
+      </tbody>
+    </table>    
+    <h4>Paid & Due Dashboard</h4>
+     <table border="1" style="border-collapse: collapse;border: 1px grey;width: 100%;height: 25%;" cellspacing="10">
+      <thead>
+      <tr>
+        <th>Actual Collection Amount</th><th>Discount Given</th><th>Total Collection Amount</th><th>Collection Till Date</th><th>Due Till Date</th>
+      </tr>
+      </thead>
+      <tbody>
+        <template is="dom-repeat" items="{{collectiondashboardarr}}">
+          <tr><td>{{item.actual}}</td><td>{{item.discount}}</td><td>{{item.total}}</td><td>{{item.paid}}</td><td>{{item.pending}}</td></tr>
+        </template>
+      </tbody>
+    </table>
+    </div>
+    <dashboard-service id="dashboardservice"></dashboard-service>
+  </template>
+  <script type="text/javascript">
+      var tableToExcel = (function() {
+      var uri = 'data:application/vnd.ms-excel;base64,'
+      , template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>'
+     , base64 = function(s) { return window.btoa(unescape(encodeURIComponent(s))) }
+     , format = function(s, c) { return s.replace(/{(\w+)}/g, function(m, p) { return c[p]; }) }
+     return function(table, name) {
+     if (!table.nodeType) table = document.getElementById(table)
+     var ctx = {worksheet: name || 'Worksheet', table: table.innerHTML}
+     window.location.href = uri + base64(format(template, ctx))
+     }
+     })()
+  </script>
+  <script>
+  (function() {
+    'use strict';
+    var academicyear="";
+    Polymer({
+      is: 'collection-daily-collection-dashboard',
+      ready:function(){
+        // this.hidetable=true;
+      },
+      FnSelectAcademicYear:function(e){
+        academicyear=(e.target.selectedItem.textContent).trim();
+        this.$.dashboardservice.FnFetchCollectionDailyCollectionDashboardService(academicyear);
+      },
+      callService:function(){
+        var d=new Date(); 
+        var cy=d.getFullYear(); 
+        var ny='';
+        var m=d.getMonth()+1;
+        if(m>4){
+          cy=parseInt(cy);
+          ny=parseInt(cy)+1;
+        }
+        else{
+          cy=parseInt(cy)-1;
+          ny=parseInt(cy)+1;
+        }
+        academicyear="AY-"+cy+"-"+ny;
+        this.$.dashboardservice.FnFetchCollectionDailyCollectionDashboardService(academicyear);
+      },
+      FnShowTable:function(){
+        this.hidetable=false;
+      },
+      FnRefresh:function(){
+        document.querySelector('#collectiondailydashboardacademicyear').selected=-1;
+      }
+    });
+  })();
+  </script>
+</dom-module>
