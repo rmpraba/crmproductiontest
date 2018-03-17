@@ -4,7 +4,7 @@
   <template>
     <style></style>
     <div>
-    <table border="1" style="border-collapse: collapse;">
+    <table border="1" style="border-collapse: collapse;border-color: #e0dade;">
       <template is="dom-repeat" items="{{paymenthistoryarr}}" as="item">
       <tr style="{{item.fontsize}}"><td>{{item.sno}}</td><td>{{item.transactionno}}</td><td>{{item.feetype}}</td><td>{{item.amount}}</td><td>{{item.dop}}</td><td>{{item.paymentmode}}</td><td>{{item.ptno}}</td><td>{{item.transactionname}}</td><td>{{item.transactiondate}}</td><td>{{item.receiptno}}</td><td>{{item.status}}</td><td>{{item.paymenttype}}</td><td>
       <collection-receiptinfo-item-card gradename="{{gradename}}" academicyear="{{academicyear}}" admissionyear="{{admissionyear}}"

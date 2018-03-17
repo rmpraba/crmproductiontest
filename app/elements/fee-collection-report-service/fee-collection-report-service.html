@@ -36,6 +36,8 @@
         obj.schoolid=localStorage.getItem("schoolid");
         obj.fromdate=localStorage.getItem("localsess_from_date");
         obj.todate=localStorage.getItem("localsess_to_date");
+        // alert(obj.fromdate);
+        // alert(obj.todate);
         obj.grade=grade;
         obj.type=type;
         this.collectionreportdaycollectionparam=obj;
@@ -159,6 +161,11 @@
           if(f==0)
             totalarr[i].discount_amount=0;
         }
+        }
+        else{
+          for(var i=0;i<totalarr.length;i++){
+            totalarr[i].discount_amount=0;
+          }
         }
 
         for(var i=0;i<totalarr.length;i++){

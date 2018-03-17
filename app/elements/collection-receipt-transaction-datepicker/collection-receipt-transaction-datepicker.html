@@ -32,11 +32,19 @@
   <script>
     Polymer({
       is: 'collection-receipt-transaction-datepicker',
-
       ready:function()
       {
-        this.showdate=moment(new Date()).format('L');
-        localStorage.setItem("curr_sess_date",this.showdate);
+        this.showdate=moment(new Date()).format('DD/MM/YYYY');
+        var d=new Date();
+        var mm=(d.getMonth()+1);
+        if(mm<10)
+          mm="0"+mm;
+        var dd=d.getDate();
+        if(dd<10)
+          dd="0"+dd;
+        var yy=d.getFullYear();
+        var dat=dd+"/"+mm+"/"+yy;
+        localStorage.setItem("curr_sess_date",dat);
       },
       FnShowDialog:function(){
         this.date=new Date();
@@ -46,7 +54,7 @@
       {
         if (e.detail.confirmed)
         {
-          var pickdate=moment(this.$.picker.date).format('L');
+          var pickdate=moment(this.$.picker.date).format('DD/MM/YYYY');
           var dd1=new Date();
           var dd2=new Date(pickdate);
           var days=parseInt((dd1 - dd2) / (1000 * 60 * 60 * 24));
@@ -58,11 +66,22 @@
           // document.querySelector('collection-fee-entry-card').transactiondate="";
           // }
           // else{
-          this.showdate = moment(this.$.picker.date).format('L');
-          localStorage.setItem("curr_sess_date",this.showdate);
+          this.showdate = moment(this.$.picker.date).format('DD/MM/YYYY');
+          var d=new Date(this.$.picker.date);
+          var mm=(d.getMonth()+1);
+          if(mm<10)
+            mm="0"+mm;
+          var dd=d.getDate();
+          if(dd<10)
+            dd="0"+dd;
+          var yy=d.getFullYear();
+          var dat=dd+"/"+mm+"/"+yy;
+          localStorage.setItem("curr_sess_date",dat);
           document.querySelector('collection-fee-entry-card').transactiondate=this.showdate;
           document.querySelector('collection-fee-edit-card').transactiondate=this.showdate;
           document.querySelector('application-fee-card').transactiondate=this.showdate;
+          document.querySelector('transport-collection-fee-entry-card').transactiondate=this.showdate;
+          document.querySelector('transport-collection-fee-edit-card').transactiondate=this.showdate;
           // }
         }
       }

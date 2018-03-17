@@ -16,6 +16,15 @@
         <div class="well well-sm">
           <div class="row">
             <div class="col-md-12">
+                <div class="col-md-3" style="margin-top: -1%;">
+                 <paper-dropdown-menu id="appffeeecollectionacademicyear" label="Academic Year" on-iron-select="FnSelectAcademicYear">
+                  <paper-listbox class="dropdown-content" selected="{{selectedacademicyear}}" id="appffeecollectionacademicyear" attr-for-selected="value">
+                  <template  is="dom-repeat" items="{{academicarr}}" as="item">
+                  <paper-item value="{{item.academic_year}}">{{item.academic_year}}</paper-item>
+                  </template>
+                  </paper-listbox>
+                 </paper-dropdown-menu>
+                </div>
                 <div class="col-md-5" style="margin-top: -1%;">
                    <paper-input  label="Student Name" is="" value="{{value}}" on-keydown="FnSearchEnquiry"></paper-input>
                    <paper-listbox class="dropdown-content" id="applicationfeecollectioninputname" on-iron-select="FnSelectEnquiry">
@@ -34,7 +43,8 @@
      <div class="well well-sm">
           <div class="row">
             <div class="col-md-12">
-        <table class="table">
+        <table class="table table-hover">
+        <tr><th colspan="4"><h4>Student Info</h4></th></tr>
        <tr><th>Academic year</th><td width="8%"></td><td>{{academicyear}}</paper-input></td><th>Grade</th><td width="8%"></td><td>{{grade}}</paper-input></td></tr>
        <tr><th>Student name</th><td width="8%"></td><td>{{studentname}}</paper-input></td><th>Parent name</th><td width="8%"></td><td>{{parentname}}</paper-input></td></tr>
     </table>
@@ -46,6 +56,7 @@
             <div class="col-md-12">
            <div class="ccard" width="100%">
     <div style="margin-left: 5%;width: 40%;">
+    <h4>Payment Info</h4>
       <table class="table table-hover">
         <tr><th>Payment mode</th><td width="8%"></td>
         <td>
@@ -59,7 +70,7 @@
         </td>
         </tr>
         <tr><th>Amount</th><td width="8%"></td><td><paper-input pattern="[0-9]*" value="{{amount}}"></paper-input></td></tr>
-        <tr><th>Receipt Number</th><td width="8%"></td><td>{{receiptno}}</paper-input></td></tr>
+        <!-- <tr><th>Receipt Number</th><td width="8%"></td><td>{{receiptno}}</paper-input></td></tr> -->
         <tr><th>Date of payment</th><td width="8%"></td><td><p hidden>{{dateofpayment}}</p><collection-receipt-datepicker></collection-receipt-datepicker></td></tr>
         <!-- <tr><th>Due Amount</th><td width="8%"></td><td>{{dueamount}}</td></tr> -->
       </table>
@@ -126,6 +137,12 @@
         var currdate=(d.getMonth()+1)+"/"+d.getDate()+"/"+d.getFullYear();
         this.transactiondate=currdate;
         this.dateofpayment=currdate;
+      },
+      FnSelectAcademicYear:function(e){
+        this.academicyear=e.target.selectedItem.textContent.trim();
+        localStorage.setItem("curr_sess_academicyear",this.academicyear);
+        this.callService();
+        // this.$.feecollectionservice.FnFetchZone(this.academicyear);
       },
       callService:function(){
         // alert('calling');
@@ -278,6 +295,7 @@
         this.studentname="";        
         this.grade="";
         document.querySelector('#applnfeecollectionfeeentrymode').selected=-1;
+        document.querySelector('#appffeecollectionacademicyear').selected=-1;
         this.amount="";
         this.receiptno="";
         this.dateofpayment="";

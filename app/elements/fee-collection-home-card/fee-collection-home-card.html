@@ -22,6 +22,15 @@
         <div class="well well-sm">
           <div class="row">
             <div class="col-md-12">
+                <div class="col-md-3" style="margin-top: -1%;">
+                 <paper-dropdown-menu id="ffeeecollectionacademicyear" label="Academic Year" on-iron-select="FnSelectAcademicYear">
+                  <paper-listbox class="dropdown-content" selected="{{selectedacademicyear}}" id="ffeecollectionacademicyear" attr-for-selected="value">
+                  <template  is="dom-repeat" items="{{academicarr}}" as="item">
+                  <paper-item value="{{item.academic_year}}">{{item.academic_year}}</paper-item>
+                  </template>
+                  </paper-listbox>
+                 </paper-dropdown-menu>
+                </div>
                 <div class="col-md-5" style="margin-top: -1%;">
                    <paper-input  label="Student Name" is="" value="{{value}}" on-keydown="FnSearchEnquiry"></paper-input>
                    <paper-listbox class="dropdown-content" id="feecollectioninputname" on-iron-select="FnSelectEnquiry">
@@ -88,6 +97,12 @@
       this.hidestudentdetailcard=true;
       this.querySelector('#feecollectioninputname').style.visibility='hidden';
       this.page="collection-studentinfo-card";
+      },
+      FnSelectAcademicYear:function(e){
+        this.academicyear=e.target.selectedItem.textContent.trim();
+        localStorage.setItem("curr_sess_academicyear",this.academicyear);
+        this.callService();
+        // this.$.feecollectionservice.FnFetchZone(this.academicyear);
       },
       FnStudentInfo:function(){
         this.$.spinner.toggle();
@@ -226,6 +241,7 @@
         this.studentname="";        
         this.grade="";
         this.hidestudentdetailcard=true;
+        document.querySelector('#ffeecollectionacademicyear').selected=-1;
     },
     Fnhidestudentdetailcard:function(){
       // alert('coming!');

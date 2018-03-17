@@ -355,6 +355,7 @@
         this.fetchallstudentforcollectionurl=sessionStorage.getItem("addrinfo")+"/collection-fetchallstudent-service";
         var obj={};
         obj.schoolid=localStorage.getItem("schoolid");
+        obj.academicyear=localStorage.getItem("curr_sess_academicyear");
         this.fetchallstudentforcollectionparam=obj;
         this.$.fetchallstudentforcollectionajax.generateRequest();
       },
@@ -368,6 +369,7 @@
         this.fetchstudentinfoforcollectionurl=sessionStorage.getItem("addrinfo")+"/collection-studentinfo-service";
         var obj={};
         obj.schoolid=localStorage.getItem("schoolid");
+        obj.academicyear=localStorage.getItem("curr_sess_academicyear");
         obj.admissionno=admission_no;
         this.fetchstudentinfoforcollectionparam=obj;
         this.$.fetchstudentinfoforcollectionajax.generateRequest();
@@ -394,6 +396,7 @@
         this.fetchfeeinfoforcollectionurl=sessionStorage.getItem("addrinfo")+"/collection-feeinfo-service";
         var obj={};
         obj.schoolid=localStorage.getItem("schoolid");
+        obj.academicyear=localStorage.getItem("curr_sess_academicyear");
         obj.admissionno=admission_no;
         this.fetchfeeinfoforcollectionparam=obj;
         this.$.fetchfeeinfoforcollectionajax.generateRequest();
