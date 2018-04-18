@@ -47,6 +47,20 @@
         var dat=dd+"/"+mm+"/"+yy;
         localStorage.setItem("curr_sess_date",dat);
       },
+      attached:function()
+      {
+        this.showdate=moment(new Date()).format('DD/MM/YYYY');
+         var d=new Date();
+        var mm=(d.getMonth()+1);
+        if(mm<10)
+          mm="0"+mm;
+        var dd=d.getDate();
+        if(dd<10)
+          dd="0"+dd;
+        var yy=d.getFullYear();
+        var dat=dd+"/"+mm+"/"+yy;
+        localStorage.setItem("curr_sess_date",dat);
+      },
       FnShowDialog:function(){
         this.date=new Date();
         this.$.dialog.toggle();
@@ -78,9 +92,10 @@
           var yy=d.getFullYear();
           var dat=dd+"/"+mm+"/"+yy;
           localStorage.setItem("curr_sess_date",dat);
+          document.querySelector('transport-collection-feecollection-card').dateofpayment=this.showdate;
           document.querySelector('collection-fee-entry-card').dateofpayment=this.showdate;
           document.querySelector('collection-fee-edit-card').dateofpayment=this.showdate;
-          document.querySelector('transport-collection-fee-entry-card').dateofpayment=this.showdate;
+          // document.querySelector('transport-collection-fee-entry-card').dateofpayment=this.showdate;
           document.querySelector('transport-collection-fee-edit-card').dateofpayment=this.showdate;
           document.querySelector('application-fee-card').dateofpayment=this.showdate;
           // }
